@@ -234,6 +234,16 @@ function Home() {
                 Creative direction, design, development, and digital experiences — held together by one point of view. No handoffs into the fog.
               </p>
             </div>
+            <figure className="mt-12 overflow-hidden border border-[#1d1a24]/20">
+              <img
+                src="/visuals/acs-studio-object.jpg"
+                alt="A sculptural translucent object lit with chartreuse and coral light"
+                className="h-auto w-full object-cover transition-transform duration-700 hover:scale-[1.03]"
+              />
+              <figcaption className="mono-face flex justify-between gap-4 border-t border-[#1d1a24]/20 px-4 py-3 text-[9px] uppercase tracking-[.14em] text-[#1d1a24]/55">
+                <span>Studio material study</span><span>01 / 03</span>
+              </figcaption>
+            </figure>
             <a href="#contact" className="group mt-10 inline-flex items-center gap-3 border-b border-[#1d1a24] pb-2 text-sm font-semibold" data-testid="link-studio-contact">
               Bring us the hard part <ArrowUpRight className="magnetic-arrow h-4 w-4" />
             </a>
@@ -248,6 +258,17 @@ function Home() {
             <span className="mono-face text-[10px] uppercase tracking-[.14em] text-[#1d1a24]/55">One team, end to end</span>
           </div>
           <h2 id="capabilities-title" className="sr-only">Our capabilities</h2>
+          <figure className="mt-14 grid overflow-hidden border border-[#1d1a24]/25 lg:grid-cols-[1.25fr_.75fr]">
+            <img
+              src="/visuals/acs-system-study.jpg"
+              alt="Layered paper, wire, and luminous lines arranged as a tactile design system"
+              className="h-full min-h-56 w-full object-cover"
+            />
+            <figcaption className="flex flex-col justify-between bg-[#1d1a24] p-6 text-[#f2eddf] sm:p-8">
+              <span className="mono-face text-[9px] uppercase tracking-[.16em] text-[#d8ff45]">The work is the system</span>
+              <span className="display-face mt-12 max-w-xs text-3xl leading-[.95]">Form, feeling, and function in the same room.</span>
+            </figcaption>
+          </figure>
           <div className="mt-16 grid divide-y divide-[#1d1a24]/25 border-y border-[#1d1a24]/25 lg:grid-cols-2 lg:divide-x lg:divide-y-0">
             {[
               ['01', 'Creative direction', 'Find the signal. Name the feeling. Give the work a point of view that can hold up in the wild.'],
@@ -305,6 +326,14 @@ function Home() {
           <SectionLabel number="04" inverse>Our approach</SectionLabel>
           <div>
             <h2 id="approach-title" className="display-face max-w-4xl text-[clamp(2.9rem,6vw,6.2rem)] leading-[.9]">Small enough to care about every pixel. Serious enough to ship the whole idea.</h2>
+            <figure className="mt-12 overflow-hidden border border-[#f2eddf]/20">
+              <img
+                src="/visuals/acs-horizon.jpg"
+                alt="A luminous coral doorway opening toward a chartreuse horizon"
+                className="aspect-[1.8] w-full object-cover"
+              />
+              <figcaption className="mono-face border-t border-[#f2eddf]/20 px-4 py-3 text-[9px] uppercase tracking-[.14em] text-[#f2eddf]/50">A way through / a way forward</figcaption>
+            </figure>
             <div className="mt-16">
               {[
                 ['01', 'Find the edge', 'We start with the tension in your idea — the part that feels most like you and least like everyone else.'],
@@ -330,6 +359,16 @@ function Home() {
           </div>
           <div>
             <p className="max-w-xl text-xl leading-[1.2] text-[#1d1a24]/75 sm:text-2xl">advancedcreationstudio.com is the front door. Every project can have its own address, its own atmosphere, its own living room.</p>
+            <figure className="mt-10 overflow-hidden border border-[#1d1a24]/30">
+              <img
+                src="/visuals/acs-horizon.jpg"
+                alt="A glowing opening representing a new project world"
+                className="aspect-[1.7] w-full object-cover mix-blend-multiply"
+              />
+              <figcaption className="mono-face flex justify-between gap-4 border-t border-[#1d1a24]/30 px-4 py-3 text-[9px] uppercase tracking-[.14em] text-[#1d1a24]/60">
+                <span>Project worlds, connected</span><span>ACS / DNS</span>
+              </figcaption>
+            </figure>
             <div className="mt-10 border-t border-[#1d1a24]/30 pt-5">
               <div className="mono-face flex items-center justify-between text-[10px] uppercase tracking-[.12em]">
                 <span>Studio index</span><span>04 / 04</span>
