@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Advanced Creation Studio"
+description = "A polished studio website introducing Advanced Creation Studio, its creative and technical offerings, and advancedcreationstudio.com as the home for project subdomains."
+version = "1.0.0"
+id = "artifacts/advanced-creation-studio"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25955
+
+[services.development]
+run = "pnpm --filter @workspace/advanced-creation-studio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/advanced-creation-studio", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/advanced-creation-studio/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25955"
+BASE_PATH = "/"
