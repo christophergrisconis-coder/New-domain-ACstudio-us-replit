@@ -244,6 +244,8 @@ function Home() {
 
       <section className="hero-grid relative min-h-[820px] px-5 pb-16 pt-36 text-[#eee7d5] sm:px-8 lg:min-h-[950px] lg:px-12 lg:pt-44" aria-labelledby="hero-title">
         <div className="hero-ambient pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <img className="hero-mission-image hero-mission-image-one" src="/visuals/acs-ai-collaboration.jpg" alt="" />
+          <img className="hero-mission-image hero-mission-image-two" src="/visuals/acs-reentry-pathway.jpg" alt="" />
           <div className="ambient-orb ambient-orb-one" />
           <div className="ambient-orb ambient-orb-two" />
           <div className="ambient-scanline" />
