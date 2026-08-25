@@ -36,8 +36,8 @@ const projects: Project[] = [
     year: '2024',
     description: 'A living launchpad for a new kind of listening experience.',
     url: 'afterglow.advancedcreationstudio.com',
-    image: '/visuals/acs-glass-form.jpg',
-    imageAlt: 'Close-up of a sculptural glass form glowing coral and chartreuse',
+    image: '/visuals/acs-ai-collaboration.jpg',
+    imageAlt: 'A creative team collaborating around AI-assisted data visualizations',
     accent: '#d8ff45',
   },
   {
@@ -46,8 +46,8 @@ const projects: Project[] = [
     year: '2024',
     description: 'Making the messy, meaningful work of climate research visible.',
     url: 'fieldnotes.advancedcreationstudio.com',
-    image: '/visuals/acs-topographic-field.jpg',
-    imageAlt: 'Illustrated topographic landscape with a coral river under a moon',
+    image: '/visuals/acs-app-building.jpg',
+    imageAlt: 'Hands sketching app flows and responsive website wireframes beside a laptop',
     accent: '#e76f5c',
   },
   {
@@ -56,8 +56,8 @@ const projects: Project[] = [
     year: '2023',
     description: 'A responsive sound and light study for rooms that listen back.',
     url: 'signal01.advancedcreationstudio.com',
-    image: '/visuals/acs-studio-object.jpg',
-    imageAlt: 'Translucent sculptural object illuminated on a dark studio floor',
+    image: '/visuals/acs-future-signal.jpg',
+    imageAlt: 'A prototype website being presented to a collaborative makerspace group',
     accent: '#d8ff45',
   },
   {
@@ -66,8 +66,8 @@ const projects: Project[] = [
     year: '2023',
     description: 'An object-led universe for the things we carry forward.',
     url: 'morrow.advancedcreationstudio.com',
-    image: '/visuals/acs-editorial-still-life.jpg',
-    imageAlt: 'Editorial still life of glass, paper, metal, and a chartreuse sphere',
+    image: '/visuals/acs-access-design.jpg',
+    imageAlt: 'Hands arranging tactile interface cards and adaptive technology tools',
     accent: '#e76f5c',
   },
 ];
@@ -308,7 +308,7 @@ function Home() {
               <p className="text-lg leading-[1.35] text-[#201a2a]/70">Creative direction, design, development, and digital experiences — held together by one point of view. No handoffs into the fog.</p>
             </Reveal>
             <Reveal delay="reveal-delay-2" className="mt-14">
-              <ImageChapter src="/visuals/acs-studio-object.jpg" alt="A sculptural translucent object lit with chartreuse and coral light" label="Studio material study / 01" caption="A shape is a decision with a shadow." className="h-[480px] sm:h-[620px]" imageClassName="scale-[1.12] object-[58%_54%]" />
+              <ImageChapter src="/visuals/acs-ai-collaboration.jpg" alt="A creative team collaborating around AI-assisted data visualizations" label="Human + machine / 01" caption="The best intelligence is shared." className="h-[480px] sm:h-[620px]" imageClassName="scale-[1.12] object-[58%_54%]" />
             </Reveal>
             <Reveal delay="reveal-delay-3">
               <a href="#contact" className="focus-ring group mt-10 inline-flex items-center gap-3 border-b border-[#201a2a] pb-2 text-sm font-semibold" data-testid="link-studio-contact">
@@ -328,7 +328,7 @@ function Home() {
           <h2 id="capabilities-title" className="sr-only">Our capabilities</h2>
           <Reveal className="mt-14">
             <div className="grid overflow-hidden border border-[#201a2a]/25 lg:grid-cols-[1.25fr_.75fr]">
-              <ImageChapter src="/visuals/acs-system-study.jpg" alt="Layered paper, wire, and luminous lines arranged as a tactile design system" label="Working material / 02" caption="The mess is where the method begins." className="h-[340px] lg:h-[500px]" imageClassName="object-[50%_55%]" />
+              <ImageChapter src="/visuals/acs-app-building.jpg" alt="Hands sketching app flows and responsive website wireframes beside a laptop" label="Build in public / 02" caption="The mess is where the method begins." className="h-[340px] lg:h-[500px]" imageClassName="object-[50%_55%]" />
               <div className="flex flex-col justify-between bg-[#201a2a] p-6 text-[#eee7d5] sm:p-10">
                 <span className="mono-face text-[9px] uppercase tracking-[.16em] text-[#d8ff45]">The work is the system</span>
                 <span className="display-face mt-12 max-w-xs text-4xl leading-[.92]">Form, feeling, and function in the same room.</span>
@@ -363,7 +363,7 @@ function Home() {
             </div>
           </Reveal>
           <Reveal delay="reveal-delay-2">
-            <ImageChapter src="/visuals/acs-editorial-still-life.jpg" alt="Editorial still life of sculptural objects, paper, glass, and a chartreuse orb" label="Still life / 03" caption="Keep the evidence of the hand." className="h-[470px] rotate-2 sm:h-[620px] lg:ml-10" imageClassName="scale-[1.08]" />
+            <ImageChapter src="/visuals/acs-learning-lab.jpg" alt="Adult learners collaborating in a bright community technology classroom" label="Learning together / 03" caption="Keep the evidence of the hand." className="h-[470px] rotate-2 sm:h-[620px] lg:ml-10" imageClassName="scale-[1.08]" />
           </Reveal>
         </div>
       </section>
@@ -401,7 +401,7 @@ function Home() {
           <div>
             <Reveal><h2 id="approach-title" className="display-face max-w-4xl text-[clamp(3rem,7vw,7.2rem)] leading-[.83]">Small enough to care about every pixel. Serious enough to ship the <span className="serif-face font-normal italic text-[#d8ff45]">whole idea.</span></h2></Reveal>
             <Reveal delay="reveal-delay-1" className="mt-14">
-              <ImageChapter src="/visuals/acs-horizon.jpg" alt="A luminous coral doorway opening toward a chartreuse horizon" label="The threshold / 04" caption="A way through is a way forward." className="h-[330px] sm:h-[490px]" imageClassName="object-[54%_50%]" />
+              <ImageChapter src="/visuals/acs-reentry-pathway.jpg" alt="A person walking toward an open doorway in a welcoming community technology center" label="A way through / 04" caption="A way through is a way forward." className="h-[330px] sm:h-[490px]" imageClassName="object-[54%_50%]" />
             </Reveal>
             <div className="mt-16">
               {[
@@ -429,7 +429,7 @@ function Home() {
           <div>
             <Reveal><p className="max-w-xl text-xl leading-[1.15] text-[#201a2a]/75 sm:text-2xl">advancedcreationstudio.com is the front door. Every project can have its own address, its own atmosphere, its own living room.</p></Reveal>
             <Reveal delay="reveal-delay-1" className="mt-10">
-              <ImageChapter src="/visuals/acs-topographic-field.jpg" alt="Illustrated topographic landscape with branching coral pathways" label="Project worlds, connected / 05" caption="A shared address. Four different weather systems." className="h-[380px] sm:h-[520px]" imageClassName="object-[53%_50%] mix-blend-multiply" />
+              <ImageChapter src="/visuals/acs-future-signal.jpg" alt="A prototype website being presented to a collaborative makerspace group" label="Project worlds, connected / 05" caption="A shared address. Many ways forward." className="h-[380px] sm:h-[520px]" imageClassName="object-[53%_50%] mix-blend-multiply" />
             </Reveal>
             <Reveal delay="reveal-delay-2" className="mt-10 border-t border-[#201a2a]/30 pt-5">
               <div className="mono-face flex items-center justify-between text-[10px] uppercase tracking-[.12em]"><span>Studio index</span><span>04 / 04</span></div>
