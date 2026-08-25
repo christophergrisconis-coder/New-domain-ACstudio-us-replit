@@ -99,7 +99,20 @@
   background-color: #201a2a;
   background-image: linear-gradient(rgba(238,231,213,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(238,231,213,.07) 1px, transparent 1px);
   background-size: 74px 74px;
+  isolation: isolate;
+  animation: grid-breathe 18s ease-in-out infinite;
 }
+@keyframes grid-breathe { 0%,100% { background-position: 0 0, 0 0; } 50% { background-position: 18px -12px, -12px 18px; } }
+.hero-ambient { z-index: -1; }
+.ambient-orb { position: absolute; border-radius: 999px; filter: blur(1px); mix-blend-mode: screen; }
+.ambient-orb-one { width: min(48vw, 680px); height: min(48vw, 680px); right: -12%; top: 20%; background: radial-gradient(circle at 35% 35%, rgba(216,255,69,.24), rgba(216,255,69,0) 62%); animation: ambient-drift-one 19s ease-in-out infinite; }
+.ambient-orb-two { width: min(38vw, 520px); height: min(38vw, 520px); left: -18%; bottom: -10%; background: radial-gradient(circle at 55% 45%, rgba(231,111,92,.23), rgba(231,111,92,0) 66%); animation: ambient-drift-two 24s ease-in-out infinite; }
+.ambient-scanline { position: absolute; inset: -20% 0 auto; height: 2px; background: linear-gradient(90deg, transparent, rgba(216,255,69,.7), transparent); box-shadow: 0 0 22px rgba(216,255,69,.45); animation: scanline 11s linear infinite; }
+.ambient-crosshair { position: absolute; width: 18rem; height: 18rem; right: 5%; top: 39%; border: 1px solid rgba(231,111,92,.42); border-radius: 50%; animation: crosshair-drift 15s ease-in-out infinite; }
+@keyframes ambient-drift-one { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-8%, 10%, 0) scale(1.16); } }
+@keyframes ambient-drift-two { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(20%, -16%, 0) scale(.84); } }
+@keyframes scanline { from { transform: translateY(0); opacity: 0; } 12%,82% { opacity: .7; } to { transform: translateY(1050px); opacity: 0; } }
+@keyframes crosshair-drift { 0%,100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(-24px, 20px) rotate(18deg); } }
 .hero-giant { font-size: clamp(4.5rem, 15vw, 14.8rem); line-height: .78; }
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .85s cubic-bezier(.2,.8,.2,1), transform .85s cubic-bezier(.2,.8,.2,1); }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
@@ -108,6 +121,11 @@
 .reveal-delay-3 { transition-delay: .34s; }
 .editorial-image { transition: transform 1s cubic-bezier(.2,.8,.2,1), filter 1s ease; }
 .parallax-media { transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.035); }
+.motion-picture-image { position: relative; z-index: 0; animation: picture-drift 16s ease-in-out infinite alternate; transform-origin: 52% 48%; }
+@keyframes picture-drift { from { transform: scale(1.035) translate3d(-1.2%, -1%, 0) rotate(-.4deg); filter: saturate(.98) contrast(1); } to { transform: scale(1.105) translate3d(1.5%, 1.2%, 0) rotate(.45deg); filter: saturate(1.12) contrast(1.04); } }
+.motion-picture { z-index: 1; opacity: .68; mix-blend-mode: screen; }
+.motion-picture-sheen { position: absolute; inset: -40% -15%; display: block; background: linear-gradient(110deg, transparent 34%, rgba(216,255,69,.22) 46%, rgba(238,231,213,.08) 52%, transparent 64%); animation: picture-sheen 9s ease-in-out infinite; }
+@keyframes picture-sheen { from { transform: translateX(-55%) rotate(2deg); } to { transform: translateX(55%) rotate(2deg); } }
 .image-frame:hover .editorial-image { transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.045) rotate(.8deg); filter: saturate(1.08); }
 .image-frame { overflow: hidden; }
 .image-frame::after { content: ''; position: absolute; inset: 0; pointer-events: none; border: 1px solid rgba(238,231,213,.22); }
@@ -137,4 +155,5 @@ a:hover .magnetic-arrow, button:hover .magnetic-arrow { transform: translate(4px
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .reveal { opacity: 1; transform: none; }
   .parallax-media { transform: none !important; }
+  .motion-picture-image, .motion-picture-sheen { animation: none !important; }
 }

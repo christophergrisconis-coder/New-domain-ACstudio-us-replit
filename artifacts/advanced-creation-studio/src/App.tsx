@@ -164,7 +164,10 @@ function ImageChapter({
 }) {
   return (
     <figure className={`image-frame relative ${className}`}>
-      <img src={src} alt={alt} className={`editorial-image parallax-media h-full w-full object-cover ${imageClassName}`} />
+      <div className="motion-picture absolute inset-0" aria-hidden="true">
+        <span className="motion-picture-sheen" />
+      </div>
+      <img src={src} alt={alt} className={`editorial-image parallax-media motion-picture-image h-full w-full object-cover ${imageClassName}`} />
       <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-gradient-to-t from-[#201a2a]/75 to-transparent px-4 pb-4 pt-14 text-[#eee7d5]">
         <span className="mono-face text-[9px] uppercase tracking-[.13em]">{label}</span>
         <span className="max-w-[175px] text-right text-xs italic leading-[1.1]">{caption}</span>
@@ -176,7 +179,7 @@ function ImageChapter({
 function ProjectArt({ project }: { project: Project }) {
   return (
     <div className="project-art relative h-full w-full overflow-hidden bg-[#201a2a]">
-      <img src={project.image} alt={project.imageAlt} className="h-full w-full object-cover" />
+      <img src={project.image} alt={project.imageAlt} className="motion-picture-image h-full w-full object-cover" />
       <div className="absolute inset-0 bg-[#201a2a]/10 mix-blend-multiply" />
       <span className="mono-face absolute bottom-4 left-4 bg-[#eee7d5] px-2 py-1 text-[9px] uppercase tracking-[.15em] text-[#201a2a]">{project.year} / {project.name}</span>
     </div>
@@ -240,6 +243,12 @@ function Home() {
       )}
 
       <section className="hero-grid relative min-h-[820px] px-5 pb-16 pt-36 text-[#eee7d5] sm:px-8 lg:min-h-[950px] lg:px-12 lg:pt-44" aria-labelledby="hero-title">
+        <div className="hero-ambient pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div className="ambient-orb ambient-orb-one" />
+          <div className="ambient-orb ambient-orb-two" />
+          <div className="ambient-scanline" />
+          <div className="ambient-crosshair" />
+        </div>
         <div className="editorial-wrap relative flex min-h-[650px] flex-col justify-between">
           <div className="relative z-10 max-w-6xl">
             <Reveal className="flex items-center gap-3 text-[#d8ff45]">
