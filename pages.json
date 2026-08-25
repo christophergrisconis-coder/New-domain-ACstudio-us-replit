@@ -1,0 +1,9 @@
+{
+  "$schema": "https://developers.cloudflare.com/pages/configuration/pages.json",
+  "name": "acstudio-us",
+  "build": {
+    "command": "PORT=4173 BASE_PATH=/ corepack pnpm --filter @workspace/advanced-creation-studio run build",
+    "destination": "artifacts/advanced-creation-studio/dist/public",
+    "root_dir": "/"
+  }
+}
