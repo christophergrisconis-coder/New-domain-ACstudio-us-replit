@@ -121,8 +121,8 @@
 .reveal-delay-3 { transition-delay: .34s; }
 .editorial-image { transition: transform 1s cubic-bezier(.2,.8,.2,1), filter 1s ease; }
 .parallax-media { transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.035); }
-.motion-picture-image { position: relative; z-index: 0; animation: picture-drift 16s ease-in-out infinite alternate; transform-origin: 52% 48%; }
-@keyframes picture-drift { from { transform: scale(1.035) translate3d(-1.2%, -1%, 0) rotate(-.4deg); filter: saturate(.98) contrast(1); } to { transform: scale(1.105) translate3d(1.5%, 1.2%, 0) rotate(.45deg); filter: saturate(1.12) contrast(1.04); } }
+.motion-picture-image { position: relative; z-index: 0; animation: picture-focus 18s ease-in-out infinite alternate; will-change: object-position, filter; }
+@keyframes picture-focus { from { object-position: 47% 46%; filter: saturate(.98) contrast(1); } to { object-position: 56% 54%; filter: saturate(1.12) contrast(1.04); } }
 .motion-picture { z-index: 1; opacity: .68; mix-blend-mode: screen; }
 .motion-picture-sheen { position: absolute; inset: -40% -15%; display: block; background: linear-gradient(110deg, transparent 34%, rgba(216,255,69,.22) 46%, rgba(238,231,213,.08) 52%, transparent 64%); animation: picture-sheen 9s ease-in-out infinite; }
 @keyframes picture-sheen { from { transform: translateX(-55%) rotate(2deg); } to { transform: translateX(55%) rotate(2deg); } }
