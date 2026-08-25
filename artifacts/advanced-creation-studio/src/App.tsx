@@ -467,7 +467,7 @@ function Home() {
       <footer className="bg-[#201a2a] px-5 py-10 text-[#eee7d5] sm:px-8 lg:px-12">
         <div className="editorial-wrap flex flex-col justify-between gap-10 sm:flex-row sm:items-end">
           <div><Logo dark /><p className="mono-face mt-8 text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/45">A small studio for large ideas.</p></div>
-          <div className="flex flex-col gap-3 sm:items-end"><a href="mailto:hello@advancedcreationstudio.com" className="focus-ring group flex items-center gap-2 text-sm hover:text-[#d8ff45]" data-testid="link-footer-email">hello@advancedcreationstudio.com <ArrowUpRight className="magnetic-arrow h-4 w-4" /></a><div className="mono-face text-[9px] uppercase tracking-[.13em] text-[#eee7d5]/40">© 2025 ACS / All signals open</div></div>
+          <div className="flex flex-col gap-3 sm:items-end"><a href="mailto:admnowner@advancedcreationstudio.com" className="focus-ring group flex items-center gap-2 text-sm hover:text-[#d8ff45]" data-testid="link-footer-email">admnowner@advancedcreationstudio.com <ArrowUpRight className="magnetic-arrow h-4 w-4" /></a><div className="mono-face text-[9px] uppercase tracking-[.13em] text-[#eee7d5]/40">© 2025 ACS / All signals open</div></div>
         </div>
         <div className="editorial-wrap mt-12 flex justify-between border-t border-[#eee7d5]/15 pt-4 mono-face text-[9px] uppercase tracking-[.13em] text-[#eee7d5]/40"><span>Built for the next good thing</span><a href="#top" className="focus-ring" data-testid="link-back-to-top">Back to top ↑</a></div>
       </footer>
