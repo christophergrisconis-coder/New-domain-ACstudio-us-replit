@@ -3,11 +3,14 @@ name: Assemble icon binaries
 on:
   workflow_dispatch:
   push:
-    paths:
-      - ".github/workflows/assemble-icon-binaries.yml"
+    branches: [main]
 
 permissions:
   contents: write
+
+concurrency:
+  group: assemble-icons
+  cancel-in-progress: true
 
 jobs:
   assemble:
@@ -23,13 +26,11 @@ jobs:
           test -f artifacts/advanced-creation-studio/public/android-chrome-512x512.png
           test -f artifacts/advanced-creation-studio/public/android-chrome-512x512-maskable.png
           test -f artifacts/advanced-creation-studio/public/favicon.ico
-          # Ensure no white corner padding
           python3 - <<'PY'
-          from pathlib import Path
+          import subprocess, sys
           try:
             from PIL import Image
           except ImportError:
-            import subprocess, sys
             subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-q', 'pillow'])
             from PIL import Image
           im = Image.open('artifacts/advanced-creation-studio/public/android-chrome-512x512.png').convert('RGB')
