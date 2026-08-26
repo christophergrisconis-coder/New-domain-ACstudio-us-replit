@@ -1,10 +1,9 @@
-name: Assemble icon-binaries bundle
+name: Assemble icon binaries
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - "artifacts/advanced-creation-studio/public/.icon-staging/**"
       - ".github/workflows/assemble-icon-binaries.yml"
 
 permissions:
@@ -15,31 +14,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Assemble icon-binaries.b64.json
+      - name: Fetch and write exact icon-binaries.b64.json
         run: |
-          python3 <<'PY'
-          from pathlib import Path
-          import hashlib
-          root = Path("artifacts/advanced-creation-studio/public")
-          staging = root / ".icon-staging"
-          parts = sorted(staging.glob("part*.txt"))
-          assert parts, "no staging parts"
-          data = "".join(p.read_text() for p in parts)
-          expected = "eb97f35fd35269b68055e4d444bbb09e492ff0fedc51ec3d234facea5bb4cda4"
-          got = hashlib.sha256(data.encode()).hexdigest()
-          assert got == expected, f"sha mismatch {got}"
-          assert len(data) == 92791
-          out = root / "icon-binaries.b64.json"
-          out.write_text(data)
-          print(f"wrote {out} ({len(data)} bytes)")
-          for p in parts:
-              p.unlink()
-          print("removed staging parts")
-          PY
-      - name: Commit assembled bundle
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Add base64 icon binary bundle for PWA/favicon assets"
-          file_pattern: |
-            artifacts/advanced-creation-studio/public/icon-binaries.b64.json
-            artifacts/advanced-creation-studio/public/.icon-staging/*
+          set -euo pipefail
+          OUT="artifacts/advanced-creation-studio/public/icon-binaries.b64.json"
+          URL="https://tmpfiles.org/dl/1787756529.0c17214fb5d62357/wGwZG7vJGkZD/icon-content-only.txt"
+          EXPECTED="eb97f35fd35269b68055e4d444bbb09e492ff0fedc51ec3d234facea5bb4cda4"
+          curl -fsSL -A "Mozilla/5.0" -o "$OUT" "$URL"
+          ACTUAL=$(sha256sum "$OUT" | awk '{print $1}')
+          test "$ACTUAL" = "$EXPECTED"
+          test "$(wc -c < "$OUT")" -eq 92791
+          rm -rf artifacts/advanced-creation-studio/public/.icon-staging
+          rm -f artifacts/advanced-creation-studio/public/_probe-11k.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$OUT"
+          git add -u artifacts/advanced-creation-studio/public/.icon-staging || true
+          git add -u artifacts/advanced-creation-studio/public/_probe-11k.json || true
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "Add base64 icon binary bundle for PWA/favicon assets"
+          git push
