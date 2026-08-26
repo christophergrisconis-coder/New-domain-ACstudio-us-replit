@@ -1,23 +1,8 @@
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="512" height="512" rx="128" fill="#201A2A"/>
-  <rect x="16" y="16" width="480" height="480" rx="112" stroke="#D8FF45" stroke-opacity="0.3" stroke-width="8"/>
-  
-  <!-- Outer Ring -->
-  <circle cx="256" cy="256" r="180" stroke="url(#accent-grad)" stroke-width="14"/>
-  
-  <!-- ACS Apex Geometric Monogram -->
-  <path d="M185 345L256 165L327 345" stroke="#D8FF45" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M208 288H304" stroke="#D8FF45" stroke-width="22" stroke-linecap="round"/>
-  
-  <!-- Coral Core Pulse Signal -->
-  <circle cx="256" cy="228" r="20" fill="#E76F5C"/>
-  <circle cx="256" cy="228" r="34" stroke="#E76F5C" stroke-width="6" stroke-opacity="0.6"/>
-  
-  <defs>
-    <linearGradient id="accent-grad" x1="100" y1="100" x2="412" y2="412" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#D8FF45"/>
-      <stop offset="0.5" stop-color="#E76F5C"/>
-      <stop offset="1" stop-color="#D8FF45"/>
-    </linearGradient>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Advanced Creation Studio">
+  <!-- Browser-tab favicon: ACS monogram, readable at 16px -->
+  <rect width="32" height="32" fill="#201A2A"/>
+  <circle cx="16" cy="16" r="11.5" fill="none" stroke="#D8FF45" stroke-width="1.5"/>
+  <path d="M10.5 23 L16 8.5 L21.5 23" fill="none" stroke="#D8FF45" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12.4 17.5 H19.6" fill="none" stroke="#D8FF45" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="16" cy="13.2" r="1.6" fill="#E76F5C"/>
 </svg>

@@ -1,0 +1,27 @@
+name: Decode ACS Apps icons
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "artifacts/advanced-creation-studio/public/icon-binaries.b64.json"
+      - "artifacts/advanced-creation-studio/scripts/decode-icon-binaries.py"
+      - ".github/workflows/decode-acs-icons.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  decode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decode icon binaries
+        run: python3 artifacts/advanced-creation-studio/scripts/decode-icon-binaries.py
+      - name: Commit decoded icons
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: decode PWA and favicon icon binaries"
+          file_pattern: |
+            artifacts/advanced-creation-studio/public/*.png
+            artifacts/advanced-creation-studio/public/favicon.ico
