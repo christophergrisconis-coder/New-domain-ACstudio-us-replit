@@ -220,8 +220,8 @@ function ScrollEngine() {
 
 function Logo({ dark = false }: { dark?: boolean }) {
   return (
-    <a
-      href="/"
+    <button
+      onClick={() => scrollToSection('top')}
       className={`focus-ring flex items-center gap-3 ${dark ? 'text-[#eee7d5]' : 'text-[#201a2a]'}`}
       data-testid="link-logo"
       aria-label="Advanced Creation Studio home"
@@ -229,10 +229,10 @@ function Logo({ dark = false }: { dark?: boolean }) {
       <span className={`grid h-9 w-9 place-items-center rounded-full border ${dark ? 'border-[#d8ff45]' : 'border-[#201a2a]'}`}>
         <span className={`h-2.5 w-2.5 rounded-full ${dark ? 'bg-[#d8ff45]' : 'bg-[#e76f5c]'}`} />
       </span>
-      <span className="text-[11px] font-semibold uppercase leading-[1.05] tracking-[.11em]">
+      <span className="text-[11px] font-semibold uppercase leading-[1.05] tracking-[.11em] text-left">
         Advanced<br />Creation Studio
       </span>
-    </a>
+    </button>
   );
 }
 
@@ -297,12 +297,14 @@ function ProjectArt({ project }: { project: Project }) {
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
   const [sent, setSent] = useState(false);
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setSelectedProject(null);
+        setShowPrivacyModal(false);
         setMenuOpen(false);
       }
     };
@@ -337,11 +339,11 @@ function Home() {
               Re-entry
             </button>
             <button
-              onClick={() => scrollToSection('work')}
+              onClick={() => scrollToSection('projects')}
               className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/80 transition-colors hover:text-[#d8ff45]"
               data-testid="link-nav-work"
             >
-              Work
+              Projects
             </button>
             <button
               onClick={() => scrollToSection('approach')}
@@ -359,9 +361,9 @@ function Home() {
             </button>
           </nav>
 
-          {/* Top-Right Centered Prominent PROJECTS Tab */}
-          <a
-            href="/projects"
+          {/* Top-Right Centered Prominent PROJECTS Tab Link to Homepage #projects Section */}
+          <button
+            onClick={() => scrollToSection('projects')}
             className="focus-ring group relative flex flex-col items-center justify-center rounded-xl bg-gradient-to-r from-[#d8ff45] via-[#e76f5c] to-[#6aa8ff] p-[2.5px] shadow-[0_0_24px_rgba(216,255,69,0.4)] transition-all hover:scale-105 hover:shadow-[0_0_36px_rgba(216,255,69,0.6)]"
             data-testid="link-nav-projects-tab"
           >
@@ -370,10 +372,10 @@ function Home() {
                 Check out our
               </span>
               <span className="display-face text-lg font-black uppercase leading-tight tracking-widest text-[#eee7d5] group-hover:text-[#d8ff45] flex items-center gap-1.5 mt-0.5">
-                PROJECTS <ArrowUpRight className="h-4 w-4 text-[#d8ff45] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                PROJECTS <ArrowDown className="h-4 w-4 text-[#d8ff45] group-hover:translate-y-0.5 transition-transform" />
               </span>
             </div>
-          </a>
+          </button>
 
           <button
             type="button"
@@ -391,17 +393,17 @@ function Home() {
       {menuOpen && (
         <div className="fixed inset-x-4 top-20 z-50 rounded-xl border border-[#d8ff45]/60 bg-[#332b40] p-5 shadow-2xl md:hidden" data-testid="menu-mobile">
           <nav className="flex flex-col gap-4" aria-label="Mobile navigation">
-            <a href="/projects" onClick={closeMenu} className="focus-ring flex items-center justify-between rounded-lg bg-[#d8ff45] p-3 text-[#201a2a] font-bold">
+            <button onClick={() => { closeMenu(); scrollToSection('projects'); }} className="focus-ring flex items-center justify-between rounded-lg bg-[#d8ff45] p-3 text-[#201a2a] font-bold text-left">
               <div>
                 <div className="text-[9px] uppercase tracking-[.18em]">Check out our</div>
                 <div className="text-xl uppercase font-black">PROJECTS</div>
               </div>
-              <ArrowUpRight className="h-6 w-6" />
-            </a>
+              <ArrowDown className="h-6 w-6" />
+            </button>
             {[
               ['studio', 'Studio'],
               ['reentry', 'Re-entry'],
-              ['work', 'Work'],
+              ['projects', 'Projects / Work'],
               ['approach', 'Approach'],
               ['contact', 'Contact'],
             ].map(([id, label]) => (
@@ -412,12 +414,12 @@ function Home() {
                 data-testid={`link-mobile-${id}`}
               >
                 {label}
-                <ArrowUpRight className="h-4 w-4 text-[#d8ff45]" />
+                <ArrowRight className="h-4 w-4 text-[#d8ff45]" />
               </button>
             ))}
-            <a href="/privacy" onClick={closeMenu} className="mono-face text-[10px] uppercase tracking-[.18em] text-[#d8ff45]">
+            <button onClick={() => { closeMenu(); setShowPrivacyModal(true); }} className="mono-face text-[10px] uppercase tracking-[.18em] text-[#d8ff45] text-left">
               Privacy Policy →
-            </a>
+            </button>
           </nav>
         </div>
       )}
@@ -543,30 +545,61 @@ function Home() {
         </div>
       </section>
 
-      <section id="work" className="scroll-mt-20 bg-[#eee7d5] px-5 py-28 sm:px-8 lg:px-12 lg:py-44" aria-labelledby="work-title">
+      {/* Projects Showcase Section directly on Homepage */}
+      <section id="projects" className="scroll-mt-20 bg-[#eee7d5] px-5 py-28 sm:px-8 lg:px-12 lg:py-44" aria-labelledby="projects-title">
         <div className="editorial-wrap">
-          <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-end">
+          <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-end border-b border-[#201a2a]/15 pb-10">
             <div>
-              <Reveal><SectionLabel number="04">Selected work</SectionLabel></Reveal>
-              <Reveal delay="reveal-delay-1"><h2 id="work-title" className="display-face mt-7 max-w-4xl text-[clamp(3.4rem,8vw,8.4rem)] leading-[.8]">Some things<br /><span className="serif-face font-normal italic text-[#e76f5c]">we set in motion.</span></h2></Reveal>
+              <Reveal><SectionLabel number="04">Studio Projects & Apps</SectionLabel></Reveal>
+              <Reveal delay="reveal-delay-1">
+                <h2 id="projects-title" className="display-face mt-7 max-w-4xl text-[clamp(3.4rem,8vw,8.4rem)] leading-[.8]">
+                  Check out our<br /><span className="serif-face font-normal italic text-[#e76f5c]">PROJECTS</span>
+                </h2>
+              </Reveal>
             </div>
             <Reveal delay="reveal-delay-2">
-              <a href="/projects" className="focus-ring inline-flex items-center gap-2 rounded-full bg-[#201a2a] px-6 py-3 mono-face text-[10px] uppercase tracking-[.14em] text-[#d8ff45] transition-transform hover:-translate-y-1">
-                View all projects →
-              </a>
+              <p className="max-w-[280px] text-base leading-[1.4] text-[#201a2a]/70">
+                Explore our full software directory, legal platforms, interactive games, and studio web apps.
+              </p>
             </Reveal>
           </div>
-          <div className="mt-20 grid gap-x-6 gap-y-16 sm:grid-cols-2">
-            {projects.slice(0, 4).map((project, index) => (
-              <Reveal key={project.name} delay={index === 1 || index === 3 ? 'reveal-delay-1' : ''} className={index % 2 === 1 ? 'sm:mt-24' : ''}>
-                <article className="project-card group" data-testid={`card-project-${project.name.toLowerCase().replaceAll(' ', '-')}`}>
-                  <button type="button" onClick={() => setSelectedProject(project)} className="focus-ring block w-full text-left" data-testid={`button-project-${project.name.toLowerCase().replaceAll(' ', '-')}`}>
-                    <div className="aspect-[1.18] overflow-hidden border border-[#201a2a]/20"><ProjectArt project={project} /></div>
-                    <div className="mt-5 flex items-start justify-between gap-4">
-                      <div><h3 className="display-face text-3xl">{project.name}</h3><p className="mono-face mt-2 text-[9px] uppercase tracking-[.14em] text-[#201a2a]/55">{project.type}</p></div>
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-[#201a2a]/30 transition-colors group-hover:border-[#201a2a] group-hover:bg-[#d8ff45]"><ArrowUpRight className="magnetic-arrow h-4 w-4" /></span>
+
+          <div className="mt-16 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-2">
+            {projects.map((project, index) => (
+              <Reveal key={project.name} delay={index % 2 === 1 ? 'reveal-delay-1' : ''}>
+                <article className="project-card group rounded-2xl border border-[#201a2a]/15 bg-[#f5efe0] p-6 transition-all hover:border-[#201a2a] hover:shadow-xl" data-testid={`card-project-${project.name.toLowerCase().replaceAll(' ', '-')}`}>
+                  <div className="aspect-[1.3] overflow-hidden rounded-xl border border-[#201a2a]/20">
+                    <ProjectArt project={project} />
+                  </div>
+                  <div className="mt-6 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="mono-face text-[9px] uppercase tracking-[.14em] text-[#e76f5c]">{project.year}</span>
+                        <span className="mono-face text-[9px] font-semibold uppercase tracking-[.14em] text-[#201a2a]/60">{project.type}</span>
+                      </div>
+                      <h3 className="display-face mt-2 text-3xl font-bold text-[#201a2a]">{project.name}</h3>
+                      <p className="mt-3 text-base leading-relaxed text-[#201a2a]/75">{project.description}</p>
                     </div>
-                  </button>
+
+                    <div className="mt-6 flex items-center justify-between border-t border-[#201a2a]/15 pt-4">
+                      <a
+                        href={`https://${project.url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="focus-ring inline-flex items-center gap-1.5 mono-face text-[11px] font-bold uppercase tracking-[.12em] text-[#201a2a] hover:text-[#e76f5c]"
+                      >
+                        {project.url} <ArrowUpRight className="h-4 w-4 text-[#e76f5c]" />
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedProject(project)}
+                        className="focus-ring grid h-10 w-10 place-items-center rounded-full border border-[#201a2a]/30 transition-colors group-hover:border-[#201a2a] group-hover:bg-[#d8ff45]"
+                        data-testid={`button-project-${project.name.toLowerCase().replaceAll(' ', '-')}`}
+                      >
+                        <ArrowUpRight className="magnetic-arrow h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
                 </article>
               </Reveal>
             ))}
@@ -616,275 +649,64 @@ function Home() {
               admnowner@advancedcreationstudio.com <ArrowUpRight className="magnetic-arrow h-4 w-4" />
             </a>
             <div className="flex gap-6 mono-face text-[9px] uppercase tracking-[.13em] text-[#eee7d5]/50">
-              <a href="/projects" className="hover:text-[#d8ff45]">Projects</a>
-              <a href="/privacy" className="hover:text-[#d8ff45]">Privacy Policy</a>
+              <button onClick={() => scrollToSection('projects')} className="hover:text-[#d8ff45]">Projects</button>
+              <button onClick={() => setShowPrivacyModal(true)} className="hover:text-[#d8ff45]">Privacy Policy</button>
             </div>
             <div className="mono-face text-[9px] uppercase tracking-[.13em] text-[#eee7d5]/40">© 2026 ACS / All signals open</div>
           </div>
         </div>
       </footer>
 
+      {/* Project Detail Modal */}
       {selectedProject && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-[#201a2a]/80 p-5 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="project-dialog-title" data-testid="dialog-project">
-          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-auto bg-[#eee7d5] p-5 shadow-[0_30px_100px_rgba(0,0,0,.35)] sm:p-8">
+          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-auto bg-[#eee7d5] p-5 shadow-[0_30px_100px_rgba(0,0,0,.35)] sm:p-8 rounded-xl">
             <button type="button" onClick={() => setSelectedProject(null)} aria-label="Close project details" className="focus-ring absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full border border-[#201a2a]/30 bg-[#eee7d5]/80" data-testid="button-close-project"><X className="h-4 w-4" /></button>
             <div className="aspect-[1.7] pr-12"><ProjectArt project={selectedProject} /></div>
             <div className="mt-7 flex flex-wrap items-start justify-between gap-4"><div><span className="mono-face text-[9px] uppercase tracking-[.14em] text-[#e76f5c]">{selectedProject.year} / {selectedProject.type}</span><h2 id="project-dialog-title" className="display-face mt-2 text-5xl">{selectedProject.name}</h2></div><span className="mono-face pt-2 text-[9px] uppercase tracking-[.1em] text-[#201a2a]/55">Project index</span></div>
-            <div className="mt-8 flex items-center justify-between border-t border-[#201a2a]/20 pt-5"><a href={`https://${selectedProject.url}`} target="_blank" rel="noopener noreferrer" className="mono-face max-w-[68%] truncate text-[10px] uppercase tracking-[.1em] text-[#201a2a] hover:text-[#e76f5c] inline-flex items-center gap-1.5 font-bold">{selectedProject.url} <ArrowUpRight className="h-3 w-3" /></a><button type="button" onClick={() => setSelectedProject(null)} className="focus-ring group flex items-center gap-2 text-sm font-semibold" data-testid="button-close-project-detail">Close <ArrowRight className="magnetic-arrow h-4 w-4" /></button></div>
-          </div>
-        </div>
-      )}
-    </main>
-  );
-}
-
-function ProjectsPage() {
-  const [filter, setFilter] = useState('All');
-  const [search, setSearch] = useState('');
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
-  const categories = ['All', 'Subdomains', 'Legal & SaaS', 'Gaming & WebGL', 'Editorial & Labs'];
-
-  const filteredProjects = projects.filter((p) => {
-    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) || 
-                          p.description.toLowerCase().includes(search.toLowerCase()) ||
-                          p.type.toLowerCase().includes(search.toLowerCase());
-    if (!matchesSearch) return false;
-    if (filter === 'All') return true;
-    if (filter === 'Subdomains') return p.url.includes('acstudioapps.us');
-    if (filter === 'Legal & SaaS') return p.type.includes('Legal') || p.type.includes('SaaS');
-    if (filter === 'Gaming & WebGL') return p.type.includes('WebGL') || p.type.includes('Game');
-    if (filter === 'Editorial & Labs') return p.type.includes('Editorial') || p.type.includes('Lab');
-    return true;
-  });
-
-  return (
-    <main className="studio-shell grain min-h-[100dvh] bg-[#201a2a] text-[#eee7d5]">
-      <header className="sticky top-0 z-50 bg-[#201a2a]/95 backdrop-blur-md border-b border-[#eee7d5]/15 py-3 px-5 sm:px-8 lg:px-12 flex items-center justify-between">
-        <Logo dark />
-        <div className="flex items-center gap-6">
-          <a href="/" className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/70 transition-colors hover:text-[#d8ff45]">
-            ← Back to Home
-          </a>
-          <a href="/privacy" className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#d8ff45] hover:underline">
-            Privacy Policy
-          </a>
-        </div>
-      </header>
-
-      <section className="px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
-        <div className="editorial-wrap">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <SectionLabel number="01" inverse>Studio Directory</SectionLabel>
-              <h1 className="display-face mt-6 text-[clamp(2.8rem,7vw,6.5rem)] leading-[.85]">
-                Check out our <br />
-                <span className="serif-face font-normal italic text-[#d8ff45]">PROJECTS</span>
-              </h1>
-            </div>
-            <p className="max-w-md text-lg leading-relaxed text-[#eee7d5]/75">
-              Explore the software, SaaS platforms, and interactive experiences built by Advanced Creation Studio. Each project runs on its canonical address under <span className="font-mono text-[#d8ff45]">acstudioapps.us</span>.
-            </p>
-          </div>
-
-          {/* Privacy Policy Banner */}
-          <div className="mt-12 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#d8ff45]/40 bg-[#282135] p-5 shadow-lg">
-            <div className="flex items-center gap-3">
-              <Shield className="h-6 w-6 text-[#d8ff45]" />
-              <div>
-                <h4 className="text-sm font-semibold text-[#eee7d5]">User Privacy & Security Guaranteed</h4>
-                <p className="text-xs text-[#eee7d5]/70">All apps hosted under acstudioapps.us adhere to strict data privacy protocols.</p>
-              </div>
-            </div>
-            <a href="/privacy" className="focus-ring inline-flex items-center gap-2 rounded-full border border-[#d8ff45] px-4 py-2 mono-face text-[10px] uppercase tracking-[.12em] text-[#d8ff45] transition-colors hover:bg-[#d8ff45] hover:text-[#201a2a]">
-              Read Privacy Policy <ArrowUpRight className="h-3.5 w-3.5" />
-            </a>
-          </div>
-
-          {/* Filter & Search Bar */}
-          <div className="mt-12 flex flex-col gap-6 border-b border-[#eee7d5]/15 pb-8 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex flex-wrap gap-2">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setFilter(cat)}
-                  className={`focus-ring rounded-full px-4 py-2 mono-face text-[10px] uppercase tracking-[.14em] transition-all ${
-                    filter === cat
-                      ? 'bg-[#d8ff45] text-[#201a2a] font-bold shadow-md'
-                      : 'border border-[#eee7d5]/25 text-[#eee7d5]/70 hover:border-[#eee7d5] hover:text-[#eee7d5]'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-            <div className="relative max-w-xs w-full">
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search projects..."
-                className="w-full rounded-full border border-[#eee7d5]/30 bg-[#282135] px-4 py-2 pl-10 text-xs text-[#eee7d5] placeholder-[#eee7d5]/40 outline-none focus:border-[#d8ff45]"
-              />
-              <Search className="absolute left-3.5 top-2.5 h-4 w-4 text-[#eee7d5]/40" />
-            </div>
-          </div>
-
-          {/* Grid of Projects */}
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredProjects.map((project) => (
-              <article key={project.name} className="project-card group flex flex-col justify-between rounded-xl border border-[#eee7d5]/20 bg-[#282135] p-5 transition-all hover:border-[#d8ff45]">
-                <div>
-                  <div className="aspect-[1.4] overflow-hidden rounded-lg border border-[#eee7d5]/15">
-                    <ProjectArt project={project} />
-                  </div>
-                  <div className="mt-5">
-                    <div className="flex items-center justify-between">
-                      <span className="mono-face text-[9px] uppercase tracking-[.14em] text-[#e76f5c]">{project.year}</span>
-                      <span className="mono-face text-[9px] uppercase tracking-[.14em] text-[#d8ff45]">{project.type}</span>
-                    </div>
-                    <h3 className="display-face mt-2 text-2xl font-bold text-[#eee7d5]">{project.name}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-[#eee7d5]/70">{project.description}</p>
-                  </div>
-                </div>
-                <div className="mt-6 flex items-center justify-between border-t border-[#eee7d5]/15 pt-4">
-                  <a
-                    href={`https://${project.url}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="focus-ring inline-flex items-center gap-1.5 mono-face text-[10px] font-bold uppercase tracking-[.12em] text-[#d8ff45] hover:underline"
-                  >
-                    {project.url} <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
-                  <button
-                    onClick={() => setSelectedProject(project)}
-                    className="focus-ring mono-face text-[9px] uppercase tracking-[.12em] text-[#eee7d5]/50 hover:text-[#eee7d5]"
-                  >
-                    Quick View
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Dialog Modal */}
-      {selectedProject && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-[#201a2a]/80 p-5 backdrop-blur-sm" role="dialog" aria-modal="true">
-          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-auto bg-[#eee7d5] p-5 text-[#201a2a] shadow-2xl sm:p-8 rounded-xl">
-            <button type="button" onClick={() => setSelectedProject(null)} className="focus-ring absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full border border-[#201a2a]/30 bg-[#eee7d5]/80"><X className="h-4 w-4" /></button>
-            <div className="aspect-[1.7] pr-12"><ProjectArt project={selectedProject} /></div>
-            <div className="mt-7 flex flex-wrap items-start justify-between gap-4">
-              <div><span className="mono-face text-[9px] uppercase tracking-[.14em] text-[#e76f5c]">{selectedProject.year} / {selectedProject.type}</span><h2 className="display-face mt-2 text-4xl">{selectedProject.name}</h2></div>
-            </div>
             <p className="mt-4 text-base leading-relaxed text-[#201a2a]/80">{selectedProject.description}</p>
             <div className="mt-8 flex items-center justify-between border-t border-[#201a2a]/20 pt-5">
-              <a href={`https://${selectedProject.url}`} target="_blank" rel="noopener noreferrer" className="mono-face text-[11px] font-bold uppercase tracking-[.1em] text-[#201a2a] hover:text-[#e76f5c] inline-flex items-center gap-1.5">
-                Launch {selectedProject.url} <ArrowUpRight className="h-4 w-4" />
+              <a href={`https://${selectedProject.url}`} target="_blank" rel="noopener noreferrer" className="mono-face max-w-[68%] truncate text-[10px] uppercase tracking-[.1em] text-[#201a2a] hover:text-[#e76f5c] inline-flex items-center gap-1.5 font-bold">
+                Launch {selectedProject.url} <ArrowUpRight className="h-3.5 w-3.5" />
               </a>
-              <button type="button" onClick={() => setSelectedProject(null)} className="focus-ring flex items-center gap-2 text-sm font-semibold">Close <ArrowRight className="h-4 w-4" /></button>
+              <button type="button" onClick={() => setSelectedProject(null)} className="focus-ring group flex items-center gap-2 text-sm font-semibold" data-testid="button-close-project-detail">Close <ArrowRight className="magnetic-arrow h-4 w-4" /></button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Footer */}
-      <footer className="border-t border-[#eee7d5]/15 bg-[#201a2a] px-5 py-10 text-[#eee7d5] sm:px-8 lg:px-12">
-        <div className="editorial-wrap flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
-          <div className="mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/50">
-            © 2026 Advanced Creation Studio — All Signals Open
-          </div>
-          <div className="flex gap-6 mono-face text-[10px] uppercase tracking-[.14em]">
-            <a href="/" className="hover:text-[#d8ff45]">Home</a>
-            <a href="/projects" className="text-[#d8ff45]">Projects</a>
-            <a href="/privacy" className="hover:text-[#d8ff45]">Privacy Policy</a>
-          </div>
-        </div>
-      </footer>
-    </main>
-  );
-}
-
-function PrivacyPolicyPage() {
-  return (
-    <main className="studio-shell grain min-h-[100dvh] bg-[#eee7d5] text-[#201a2a]">
-      <header className="sticky top-0 z-50 bg-[#eee7d5]/95 backdrop-blur-md border-b border-[#201a2a]/15 py-3 px-5 sm:px-8 lg:px-12 flex items-center justify-between">
-        <Logo />
-        <div className="flex items-center gap-6">
-          <a href="/projects" className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#201a2a]/70 hover:text-[#e76f5c]">
-            ← Back to Projects
-          </a>
-          <a href="/" className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#201a2a]/70 hover:text-[#e76f5c]">
-            Home
-          </a>
-        </div>
-      </header>
-
-      <section className="px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
-        <div className="editorial-wrap max-w-4xl">
-          <SectionLabel number="PRIVACY">Data Protection & User Trust</SectionLabel>
-          <h1 className="display-face mt-6 text-[clamp(2.5rem,6vw,5rem)] leading-[.9]">
-            Privacy Policy
-          </h1>
-          <p className="mono-face mt-4 text-xs uppercase tracking-[.15em] text-[#201a2a]/60">
-            Effective Date: January 1, 2026 | Domain: acstudioapps.us
-          </p>
-
-          <div className="mt-12 space-y-10 text-base leading-relaxed text-[#201a2a]/80">
-            <section className="border-t border-[#201a2a]/15 pt-6">
-              <h2 className="display-face text-2xl font-bold text-[#201a2a]">1. Overview & Scope</h2>
-              <p className="mt-3">
-                Advanced Creation Studio ("ACS", "we", "us", or "our") operates <span className="font-mono text-[#e76f5c]">acstudioapps.us</span> and all associated subdomain web applications (including <span className="font-mono">llb.acstudioapps.us</span>, <span className="font-mono">starbuster.acstudioapps.us</span>, <span className="font-mono">codelabs.acstudioapps.us</span>, and <span className="font-mono">nexuslore.acstudioapps.us</span>). We are committed to maintaining the highest level of user privacy and transparency.
-              </p>
-            </section>
-
-            <section className="border-t border-[#201a2a]/15 pt-6">
-              <h2 className="display-face text-2xl font-bold text-[#201a2a]">2. Data Collection Practices</h2>
-              <p className="mt-3">
-                We design our applications to minimize data collection. Most studio tools and PWAs operate with browser-local state (IndexedDB and LocalStorage), ensuring your active sessions, notes, case law searches, and game progress remain private to your local browser environment.
-              </p>
-              <ul className="mt-4 list-disc pl-6 space-y-2">
-                <li><strong>Local Storage:</strong> Used to maintain offline availability for PWA applications.</li>
-                <li><strong>Inquiries & Briefs:</strong> When you voluntarily submit a project inquiry, we collect your email address and project description solely to respond to your request.</li>
-                <li><strong>No Telemetry Selling:</strong> We do NOT sell, monetize, or share your personal information or telemetry to third-party ad networks.</li>
-              </ul>
-            </section>
-
-            <section className="border-t border-[#201a2a]/15 pt-6">
-              <h2 className="display-face text-2xl font-bold text-[#201a2a]">3. Progressive Web App (PWA) Security</h2>
-              <p className="mt-3">
-                All PWA apps hosted under acstudioapps.us utilize encrypted TLS connections (HTTPS) and isolated service workers to ensure that offline data caching complies with modern browser security standards.
-              </p>
-            </section>
-
-            <section className="border-t border-[#201a2a]/15 pt-6">
-              <h2 className="display-face text-2xl font-bold text-[#201a2a]">4. Contact & Data Inquiries</h2>
-              <p className="mt-3">
-                If you have privacy questions or wish to request data erasure, contact our administrative desk:
-              </p>
-              <div className="mt-4 rounded-lg border border-[#201a2a]/20 bg-[#eee7d5] p-4 font-mono text-sm">
-                Email: <a href="mailto:admnowner@advancedcreationstudio.com" className="text-[#e76f5c] underline">admnowner@advancedcreationstudio.com</a><br />
-                Domain Host: acstudioapps.us<br />
-                Entity: Advanced Creation Studio
+      {/* Privacy Policy Modal matching studio theme */}
+      {showPrivacyModal && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-[#201a2a]/85 p-5 backdrop-blur-md" role="dialog" aria-modal="true">
+          <div className="relative max-h-[90vh] w-full max-w-3xl overflow-auto rounded-2xl bg-[#eee7d5] p-6 text-[#201a2a] shadow-2xl sm:p-10">
+            <button type="button" onClick={() => setShowPrivacyModal(false)} className="focus-ring absolute right-6 top-6 grid h-9 w-9 place-items-center rounded-full border border-[#201a2a]/30 bg-[#eee7d5]/80"><X className="h-4 w-4" /></button>
+            <SectionLabel number="PRIVACY">Data Protection & Trust</SectionLabel>
+            <h2 className="display-face mt-4 text-4xl font-bold">Privacy Policy</h2>
+            <p className="mono-face mt-2 text-xs uppercase tracking-[.15em] text-[#201a2a]/60">Domain Host: acstudioapps.us | Last Updated: 2026</p>
+            
+            <div className="mt-8 space-y-6 text-sm leading-relaxed text-[#201a2a]/80 border-t border-[#201a2a]/15 pt-6">
+              <div>
+                <h3 className="display-face text-xl font-bold text-[#201a2a]">1. Scope & Commitments</h3>
+                <p className="mt-2">Advanced Creation Studio ("ACS") operates acstudioapps.us and all associated subdomain apps (llb.acstudioapps.us, starbuster.acstudioapps.us, codelabs.acstudioapps.us, nexuslore.acstudioapps.us). We prioritize data privacy, local state persistence, and absolute transparency.</p>
               </div>
-            </section>
-          </div>
-        </div>
-      </section>
+              <div>
+                <h3 className="display-face text-xl font-bold text-[#201a2a]">2. Data Collection Practices</h3>
+                <p className="mt-2">Our Progressive Web Applications (PWAs) utilize browser-local storage (IndexedDB / LocalStorage) to keep user session data offline on your device. We do NOT monetize or sell personal data or usage telemetry.</p>
+              </div>
+              <div>
+                <h3 className="display-face text-xl font-bold text-[#201a2a]">3. Contact & Support Desk</h3>
+                <p className="mt-2 font-mono text-xs">Email: admnowner@advancedcreationstudio.com</p>
+              </div>
+            </div>
 
-      <footer className="border-t border-[#201a2a]/15 bg-[#eee7d5] px-5 py-10 text-[#201a2a] sm:px-8 lg:px-12">
-        <div className="editorial-wrap flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
-          <div className="mono-face text-[10px] uppercase tracking-[.14em] text-[#201a2a]/60">
-            © 2026 Advanced Creation Studio — All Rights Reserved
-          </div>
-          <div className="flex gap-6 mono-face text-[10px] uppercase tracking-[.14em]">
-            <a href="/" className="hover:text-[#e76f5c]">Home</a>
-            <a href="/projects" className="hover:text-[#e76f5c]">Projects</a>
-            <a href="/privacy" className="text-[#e76f5c]">Privacy Policy</a>
+            <div className="mt-8 flex justify-end border-t border-[#201a2a]/15 pt-4">
+              <button onClick={() => setShowPrivacyModal(false)} className="focus-ring rounded-full bg-[#201a2a] px-6 py-2 mono-face text-xs text-[#eee7d5] hover:bg-[#e76f5c] hover:text-[#201a2a]">
+                Close Policy
+              </button>
+            </div>
           </div>
         </div>
-      </footer>
+      )}
     </main>
   );
 }
@@ -894,9 +716,6 @@ function Router() {
     <RoutedErrorBoundary>
       <Switch>
         <Route path="/" component={Home} />
-        <Route path="/projects" component={ProjectsPage} />
-        <Route path="/privacy" component={PrivacyPolicyPage} />
-        <Route path="/privacy-policy" component={PrivacyPolicyPage} />
         <Route component={NotFound} />
       </Switch>
     </RoutedErrorBoundary>
