@@ -31,6 +31,26 @@ type Project = {
 
 const projects: Project[] = [
   {
+    name: 'Lawyers Legal Beef (L.L.B)',
+    type: 'Legal Intelligence / SaaS Platform',
+    year: '2026',
+    description: '4th Circuit case law database, courtroom PWA offline sync, and automated legal practice tools.',
+    url: 'llb.acstudioapps.us',
+    image: '/visuals/acs-ai-collaboration.jpg',
+    imageAlt: 'Lawyers Legal Beef legal briefing and precedent engine interface',
+    accent: '#d8ff45',
+  },
+  {
+    name: 'Star Buster',
+    type: 'WebGL Interactive Game / Web App',
+    year: '2026',
+    description: 'An arcade space exploration adventure with live player telemetry and power-up progression.',
+    url: 'starbuster.acstudioapps.us',
+    image: '/visuals/acs-future-signal.jpg',
+    imageAlt: 'Star Buster deep-space navigation game experience',
+    accent: '#6aa8ff',
+  },
+  {
     name: 'Afterglow',
     type: 'Digital identity / WebGL',
     year: '2024',
@@ -544,8 +564,7 @@ function Home() {
             <button type="button" onClick={() => setSelectedProject(null)} aria-label="Close project details" className="focus-ring absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full border border-[#201a2a]/30 bg-[#eee7d5]/80" data-testid="button-close-project"><X className="h-4 w-4" /></button>
             <div className="aspect-[1.7] pr-12"><ProjectArt project={selectedProject} /></div>
             <div className="mt-7 flex flex-wrap items-start justify-between gap-4"><div><span className="mono-face text-[9px] uppercase tracking-[.14em] text-[#e76f5c]">{selectedProject.year} / {selectedProject.type}</span><h2 id="project-dialog-title" className="display-face mt-2 text-5xl">{selectedProject.name}</h2></div><span className="mono-face pt-2 text-[9px] uppercase tracking-[.1em] text-[#201a2a]/55">Project index</span></div>
-            <p className="mt-5 max-w-lg text-lg leading-[1.3] text-[#201a2a]/70">{selectedProject.description}</p>
-            <div className="mt-8 flex items-center justify-between border-t border-[#201a2a]/20 pt-5"><span className="mono-face max-w-[68%] truncate text-[9px] uppercase tracking-[.1em] text-[#201a2a]/55">{selectedProject.url}</span><button type="button" onClick={() => setSelectedProject(null)} className="focus-ring group flex items-center gap-2 text-sm font-semibold" data-testid="button-close-project-detail">Close <ArrowRight className="magnetic-arrow h-4 w-4" /></button></div>
+            <div className="mt-8 flex items-center justify-between border-t border-[#201a2a]/20 pt-5"><a href={`https://${selectedProject.url}`} target="_blank" rel="noopener noreferrer" className="mono-face max-w-[68%] truncate text-[10px] uppercase tracking-[.1em] text-[#201a2a] hover:text-[#e76f5c] inline-flex items-center gap-1.5 font-bold">{selectedProject.url} <ArrowUpRight className="h-3 w-3" /></a><button type="button" onClick={() => setSelectedProject(null)} className="focus-ring group flex items-center gap-2 text-sm font-semibold" data-testid="button-close-project-detail">Close <ArrowRight className="magnetic-arrow h-4 w-4" /></button></div>
           </div>
         </div>
       )}
