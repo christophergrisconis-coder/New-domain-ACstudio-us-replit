@@ -83,7 +83,7 @@ const projects: Project[] = [
     accent: '#d8ff45',
   },
   {
-    name: 'Star Buster',
+    name: 'Star Buster: Match&Blast',
     type: 'WebGL Interactive Game / Web App',
     year: '2026',
     description: 'An arcade space exploration adventure with live player telemetry and power-up progression.',
@@ -361,7 +361,7 @@ function Home() {
             </button>
           </nav>
 
-          {/* Top-Right Centered Prominent PROJECTS Tab Link to Homepage #projects Section */}
+          {/* Top-Right Centered Prominent PROJECTS Tab */}
           <button
             onClick={() => scrollToSection('projects')}
             className="focus-ring group relative flex flex-col items-center justify-center rounded-xl bg-gradient-to-r from-[#d8ff45] via-[#e76f5c] to-[#6aa8ff] p-[2.5px] shadow-[0_0_24px_rgba(216,255,69,0.4)] transition-all hover:scale-105 hover:shadow-[0_0_36px_rgba(216,255,69,0.6)]"
@@ -417,9 +417,9 @@ function Home() {
                 <ArrowRight className="h-4 w-4 text-[#d8ff45]" />
               </button>
             ))}
-            <button onClick={() => { closeMenu(); setShowPrivacyModal(true); }} className="mono-face text-[10px] uppercase tracking-[.18em] text-[#d8ff45] text-left">
-              Privacy Policy →
-            </button>
+            <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer" className="mono-face text-[10px] uppercase tracking-[.18em] text-[#d8ff45] text-left">
+              Official Privacy Policy →
+            </a>
           </nav>
         </div>
       )}
@@ -651,8 +651,9 @@ function Home() {
             <div className="flex gap-6 mono-face text-[9px] uppercase tracking-[.13em] text-[#eee7d5]/50">
               <button onClick={() => scrollToSection('projects')} className="hover:text-[#d8ff45]">Projects</button>
               <button onClick={() => setShowPrivacyModal(true)} className="hover:text-[#d8ff45]">Privacy Policy</button>
+              <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer" className="hover:text-[#d8ff45]">App Store URL</a>
             </div>
-            <div className="mono-face text-[9px] uppercase tracking-[.13em] text-[#eee7d5]/40">© 2026 ACS / All signals open</div>
+            <div className="mono-face text-[9px] uppercase tracking-[.13em] text-[#eee7d5]/40">© 2026 Chris Grisconis & ACS / All signals open</div>
           </div>
         </div>
       </footer>
@@ -675,31 +676,55 @@ function Home() {
         </div>
       )}
 
-      {/* Privacy Policy Modal matching studio theme */}
+      {/* Official Star Buster & ACS Privacy Policy Modal matching studio theme */}
       {showPrivacyModal && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-[#201a2a]/85 p-5 backdrop-blur-md" role="dialog" aria-modal="true">
           <div className="relative max-h-[90vh] w-full max-w-3xl overflow-auto rounded-2xl bg-[#eee7d5] p-6 text-[#201a2a] shadow-2xl sm:p-10">
             <button type="button" onClick={() => setShowPrivacyModal(false)} className="focus-ring absolute right-6 top-6 grid h-9 w-9 place-items-center rounded-full border border-[#201a2a]/30 bg-[#eee7d5]/80"><X className="h-4 w-4" /></button>
-            <SectionLabel number="PRIVACY">Data Protection & Trust</SectionLabel>
+            <SectionLabel number="PRIVACY">Official Policy Document</SectionLabel>
             <h2 className="display-face mt-4 text-4xl font-bold">Privacy Policy</h2>
-            <p className="mono-face mt-2 text-xs uppercase tracking-[.15em] text-[#201a2a]/60">Domain Host: acstudioapps.us | Last Updated: 2026</p>
+            <p className="mono-face mt-2 text-xs uppercase tracking-[.15em] text-[#201a2a]/60">Star Buster: Match&Blast & Advanced Creation Studio | Effective Date: August 26, 2026</p>
             
             <div className="mt-8 space-y-6 text-sm leading-relaxed text-[#201a2a]/80 border-t border-[#201a2a]/15 pt-6">
+              <p>
+                Chris Grisconis ("Developer," "we," "us," or "our") built the <strong>Star Buster: Match&Blast</strong> app as a Free game, along with the software tools and web applications hosted under <strong>acstudioapps.us</strong>. This SERVICE is provided by Chris Grisconis at no cost and is intended for use as is.
+              </p>
+              
               <div>
-                <h3 className="display-face text-xl font-bold text-[#201a2a]">1. Scope & Commitments</h3>
-                <p className="mt-2">Advanced Creation Studio ("ACS") operates acstudioapps.us and all associated subdomain apps (llb.acstudioapps.us, starbuster.acstudioapps.us, codelabs.acstudioapps.us, nexuslore.acstudioapps.us). We prioritize data privacy, local state persistence, and absolute transparency.</p>
+                <h3 className="display-face text-xl font-bold text-[#201a2a]">1. Information Collection and Use</h3>
+                <p className="mt-2">For a better experience while using our Service, we may require you to provide us with certain personally identifiable information. The information that we request will be retained on your device in browser-local storage (or local app state) and is not collected or stored on external servers by us in any unauthorized way.</p>
               </div>
+
               <div>
-                <h3 className="display-face text-xl font-bold text-[#201a2a]">2. Data Collection Practices</h3>
-                <p className="mt-2">Our Progressive Web Applications (PWAs) utilize browser-local storage (IndexedDB / LocalStorage) to keep user session data offline on your device. We do NOT monetize or sell personal data or usage telemetry.</p>
+                <h3 className="display-face text-xl font-bold text-[#201a2a]">2. Third-Party Services</h3>
+                <p className="mt-2">The app and associated web applications may utilize third-party services that may collect information used to identify you.</p>
+                <ul className="mt-2 list-disc pl-5 space-y-1">
+                  <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-[#e76f5c] underline">Google Play Services</a></li>
+                  <li><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer" className="text-[#e76f5c] underline">Google Analytics for Firebase</a></li>
+                  <li><a href="https://support.google.com/admob/answer/6128543?hl=en" target="_blank" rel="noopener noreferrer" className="text-[#e76f5c] underline">Google AdMob</a></li>
+                </ul>
               </div>
+
               <div>
-                <h3 className="display-face text-xl font-bold text-[#201a2a]">3. Contact & Support Desk</h3>
-                <p className="mt-2 font-mono text-xs">Email: admnowner@advancedcreationstudio.com</p>
+                <h3 className="display-face text-xl font-bold text-[#201a2a]">3. Security & Children's Privacy</h3>
+                <p className="mt-2">We value your trust in providing us your Personal Information, thus we strive to use commercially acceptable means of protecting it. These Services do not knowingly collect personally identifiable information from children under 13 years of age.</p>
+              </div>
+
+              <div>
+                <h3 className="display-face text-xl font-bold text-[#201a2a]">4. Contact Us</h3>
+                <div className="mt-2 rounded-lg border border-[#201a2a]/20 bg-[#f5efe0] p-4 mono-face text-xs">
+                  Developer: Chris Grisconis<br />
+                  Email: <a href="mailto:admnowner@advancedcreationstudio.com" className="text-[#e76f5c] underline">admnowner@advancedcreationstudio.com</a><br />
+                  Official Domain: acstudioapps.us<br />
+                  Location: Concord, North Carolina
+                </div>
               </div>
             </div>
 
-            <div className="mt-8 flex justify-end border-t border-[#201a2a]/15 pt-4">
+            <div className="mt-8 flex items-center justify-between border-t border-[#201a2a]/15 pt-4">
+              <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer" className="mono-face text-xs text-[#e76f5c] underline inline-flex items-center gap-1">
+                Open App Store Direct Link <ArrowUpRight className="h-3 w-3" />
+              </a>
               <button onClick={() => setShowPrivacyModal(false)} className="focus-ring rounded-full bg-[#201a2a] px-6 py-2 mono-face text-xs text-[#eee7d5] hover:bg-[#e76f5c] hover:text-[#201a2a]">
                 Close Policy
               </button>
