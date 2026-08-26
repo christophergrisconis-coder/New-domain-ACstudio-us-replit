@@ -32,44 +32,44 @@
 
 :root {
   --background: 40 35% 91%;
-  --foreground: 0 0% 10%;
-  --border: 0 0% 72%;
+  --foreground: 258 22% 12%;
+  --border: 258 12% 72%;
   --card: 40 38% 95%;
-  --card-foreground: 0 0% 10%;
-  --primary: 0 0% 10%;
+  --card-foreground: 258 22% 12%;
+  --primary: 258 22% 12%;
   --primary-foreground: 40 35% 91%;
   --secondary: 68 100% 64%;
-  --secondary-foreground: 0 0% 10%;
+  --secondary-foreground: 258 22% 12%;
   --muted: 39 19% 83%;
-  --muted-foreground: 0 0% 43%;
+  --muted-foreground: 258 10% 43%;
   --accent: 8 79% 63%;
-  --accent-foreground: 0 0% 10%;
+  --accent-foreground: 258 22% 12%;
   --destructive: 8 79% 52%;
   --destructive-foreground: 40 38% 95%;
-  --input: 0 0% 65%;
+  --input: 258 12% 65%;
   --ring: 68 100% 64%;
   --app-font-sans: 'Space Grotesk', sans-serif;
   --app-font-serif: 'DM Serif Display', Georgia, serif;
   --app-font-mono: 'DM Mono', monospace;
   --radius: 0.65rem;
-  --shadow: 0 18px 50px hsl(0 0% 10% / .13);
-  --shadow-deep: 0 28px 80px hsl(0 0% 10% / .24);
+  --shadow: 0 18px 50px hsl(258 22% 12% / .13);
+  --shadow-deep: 0 28px 80px hsl(258 22% 12% / .24);
 }
 
 .dark {
-  --background: 0 0% 10%;
+  --background: 258 22% 12%;
   --foreground: 40 35% 91%;
-  --border: 0 0% 30%;
-  --card: 0 0% 15%;
+  --border: 258 12% 30%;
+  --card: 258 18% 17%;
   --card-foreground: 40 35% 91%;
   --primary: 68 100% 64%;
-  --primary-foreground: 0 0% 10%;
-  --secondary: 0 0% 21%;
+  --primary-foreground: 258 22% 12%;
+  --secondary: 258 18% 21%;
   --secondary-foreground: 40 35% 91%;
-  --muted: 0 0% 23%;
+  --muted: 258 15% 23%;
   --muted-foreground: 40 14% 68%;
   --accent: 8 79% 63%;
-  --accent-foreground: 0 0% 10%;
+  --accent-foreground: 258 22% 12%;
   --ring: 68 100% 64%;
 }
 
@@ -80,12 +80,12 @@
     @apply antialiased;
     margin: 0;
     background: #eee7d5;
-    color: #0a0a0a;
+    color: #201a2a;
   }
   button, a, input, textarea { -webkit-tap-highlight-color: transparent; }
 }
 
-::selection { background: #d8ff45; color: #0a0a0a; }
+::selection { background: #d8ff45; color: #201a2a; }
 .studio-shell { overflow: clip; background: #eee7d5; }
 .display-face { font-family: var(--app-font-sans); letter-spacing: -.075em; font-weight: 600; }
 .serif-face { font-family: var(--app-font-serif); }
@@ -96,24 +96,34 @@
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
 }
 .hero-grid {
-  background-color: #0a0a0a;
+  background-color: #121916;
   isolation: isolate;
 }
 .hero-ambient { z-index: -1; }
-.hero-mission-image { position: absolute; object-fit: cover; filter: saturate(.72) contrast(1.08); mix-blend-mode: screen; opacity: .2; }
-.hero-mission-image-one { width: 72%; height: 64%; right: -10%; top: 8%; object-position: 48% 42%; animation: mission-image-one 22s ease-in-out infinite alternate; }
-.hero-mission-image-two { width: 54%; height: 58%; left: -12%; bottom: -8%; object-position: 58% 50%; opacity: .14; animation: mission-image-two 27s ease-in-out infinite alternate-reverse; }
-@keyframes mission-image-one { from { transform: translate3d(2%, -2%, 0) scale(1.05) rotate(1deg); } to { transform: translate3d(-5%, 4%, 0) scale(1.16) rotate(-1deg); } }
-@keyframes mission-image-two { from { transform: translate3d(-2%, 3%, 0) scale(1.08) rotate(-2deg); } to { transform: translate3d(6%, -4%, 0) scale(1.2) rotate(1deg); } }
+.hero-mission-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.82) contrast(1.08) brightness(.56); mix-blend-mode: normal; opacity: 0; animation: cinematic-shuffle 36s ease-in-out infinite; will-change: opacity, transform; }
+.hero-mission-image-one { object-position: 48% 42%; animation-name: cinematic-shuffle-first; animation-delay: 0s; }
+.hero-mission-image-two { object-position: 52% 48%; animation-delay: 6s; }
+.hero-mission-image-three { object-position: 45% 42%; animation-delay: 12s; }
+.hero-mission-image-four { object-position: 58% 50%; animation-delay: 18s; }
+.hero-mission-image-five { object-position: 50% 48%; animation-delay: 24s; }
+.hero-mission-image-six { object-position: 52% 46%; animation-delay: 30s; }
+@keyframes cinematic-shuffle {
+  0%, 16% { opacity: 0; transform: scale(1.04) translate3d(-1%, 0, 0); }
+  20%, 30% { opacity: .48; transform: scale(1.08) translate3d(0, -1%, 0); }
+  34%, 100% { opacity: 0; transform: scale(1.12) translate3d(1%, 1%, 0); }
+}
+@keyframes cinematic-shuffle-first {
+  0%, 16% { opacity: .48; transform: scale(1.04) translate3d(-1%, 0, 0); }
+  20%, 30% { opacity: .48; transform: scale(1.08) translate3d(0, -1%, 0); }
+  34%, 100% { opacity: 0; transform: scale(1.12) translate3d(1%, 1%, 0); }
+}
 .ambient-orb { position: absolute; border-radius: 999px; filter: blur(1px); mix-blend-mode: screen; }
 .ambient-orb-one { width: min(48vw, 680px); height: min(48vw, 680px); right: -12%; top: 20%; background: radial-gradient(circle at 35% 35%, rgba(216,255,69,.24), rgba(216,255,69,0) 62%); animation: ambient-drift-one 19s ease-in-out infinite; }
 .ambient-orb-two { width: min(38vw, 520px); height: min(38vw, 520px); left: -18%; bottom: -10%; background: radial-gradient(circle at 55% 45%, rgba(231,111,92,.23), rgba(231,111,92,0) 66%); animation: ambient-drift-two 24s ease-in-out infinite; }
 .ambient-scanline { position: absolute; inset: -20% 0 auto; height: 2px; background: linear-gradient(90deg, transparent, rgba(216,255,69,.7), transparent); box-shadow: 0 0 22px rgba(216,255,69,.45); animation: scanline 11s linear infinite; }
-.ambient-crosshair { position: absolute; width: 18rem; height: 18rem; right: 5%; top: 39%; border: 1px solid rgba(231,111,92,.42); border-radius: 50%; animation: crosshair-drift 15s ease-in-out infinite; }
 @keyframes ambient-drift-one { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-8%, 10%, 0) scale(1.16); } }
 @keyframes ambient-drift-two { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(20%, -16%, 0) scale(.84); } }
 @keyframes scanline { from { transform: translateY(0); opacity: 0; } 12%,82% { opacity: .7; } to { transform: translateY(1050px); opacity: 0; } }
-@keyframes crosshair-drift { 0%,100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(-24px, 20px) rotate(18deg); } }
 .hero-giant { font-size: clamp(4.5rem, 15vw, 14.8rem); line-height: .78; }
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .85s cubic-bezier(.2,.8,.2,1), transform .85s cubic-bezier(.2,.8,.2,1); }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
@@ -130,6 +140,12 @@
 .image-frame:hover .editorial-image { transform: translate3d(0, var(--parallax-y, 0px), 0) scale(1.045) rotate(.8deg); filter: saturate(1.08); }
 .image-frame { overflow: hidden; }
 .image-frame::after { content: ''; position: absolute; inset: 0; pointer-events: none; border: 1px solid rgba(238,231,213,.22); }
+.reentry-section { isolation: isolate; }
+.reentry-signal { position: relative; overflow: hidden; }
+.reentry-signal::before, .reentry-signal::after { content: ''; position: absolute; pointer-events: none; border: 1px solid rgba(32,26,42,.22); border-radius: 999px; }
+.reentry-signal::before { width: 13rem; height: 13rem; right: -5rem; top: -5rem; }
+.reentry-signal::after { width: 8rem; height: 8rem; right: -2.5rem; top: -2.5rem; }
+.reentry-signal > * { position: relative; z-index: 1; }
 .marquee-track { animation: marquee 30s linear infinite; }
 .marquee-track.reverse { animation-direction: reverse; animation-duration: 38s; }
 .marquee-track.slow { animation-duration: 55s; }
@@ -158,4 +174,5 @@ a:hover .magnetic-arrow, button:hover .magnetic-arrow { transform: translate(4px
   .parallax-media { transform: none !important; }
   .motion-picture-image, .motion-picture-sheen { animation: none !important; }
   .hero-mission-image { animation: none !important; }
+  .hero-mission-image-one { opacity: .48; }
 }
