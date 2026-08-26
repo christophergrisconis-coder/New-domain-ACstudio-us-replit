@@ -1,36 +1,61 @@
 name: Assemble icon binaries
 
-# bump: 2026-08-26T15:14Z-icons-zip-v2
 on:
   workflow_dispatch:
   push:
     paths:
       - ".github/workflows/assemble-icon-binaries.yml"
+      - "artifacts/advanced-creation-studio/public/icon-binaries.b64.json"
 
 permissions:
   contents: write
+
+concurrency:
+  group: assemble-icons
+  cancel-in-progress: true
 
 jobs:
   assemble:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Download icon zip and unpack into public/
+
+      - name: Decode icon binaries into PNG/ICO assets
         run: |
           set -euo pipefail
-          PUBLIC=artifacts/advanced-creation-studio/public
-          curl -fsSL -A Mozilla/5.0 -o /tmp/acs-icons.zip https://tmpfiles.org/dl/1787757364.adde55128bbc5d9c/wjw9GZ3plTpL/acs-icons.zip
-          unzip -o /tmp/acs-icons.zip -d "$PUBLIC"
-          test $(wc -c < "$PUBLIC/apple-touch-icon.png") -eq 8201
-          test $(wc -c < "$PUBLIC/android-chrome-512x512-maskable.png") -eq 18118
-          test $(wc -c < "$PUBLIC/favicon-16x16.png") -eq 585
-          ls -la "$PUBLIC"/*.png "$PUBLIC"/favicon.ico
-      - name: Commit PWA and favicon icon binaries
+          python3 artifacts/advanced-creation-studio/scripts/decode-icon-binaries.py
+          test -f artifacts/advanced-creation-studio/public/apple-touch-icon.png
+          test -f artifacts/advanced-creation-studio/public/android-chrome-512x512-maskable.png
+          python3 - <<'PY'
+          import subprocess, sys
+          try:
+            from PIL import Image
+          except ImportError:
+            subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-q', 'pillow'])
+            from PIL import Image
+          im = Image.open('artifacts/advanced-creation-studio/public/android-chrome-512x512.png').convert('RGB')
+          corner = im.getpixel((0, 0))
+          assert corner[0] < 80, corner
+          print('corner OK', corner)
+          PY
+
+      - name: Commit decoded PWA and favicon icons
         run: |
           set -euo pipefail
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add artifacts/advanced-creation-studio/public/favicon-16x16.png artifacts/advanced-creation-studio/public/favicon-32x32.png artifacts/advanced-creation-studio/public/favicon.ico artifacts/advanced-creation-studio/public/apple-touch-icon.png artifacts/advanced-creation-studio/public/android-chrome-192x192.png artifacts/advanced-creation-studio/public/android-chrome-512x512.png artifacts/advanced-creation-studio/public/android-chrome-192x192-maskable.png artifacts/advanced-creation-studio/public/android-chrome-512x512-maskable.png
-          if git diff --cached --quiet; then echo No icon changes; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            artifacts/advanced-creation-studio/public/favicon-16x16.png \
+            artifacts/advanced-creation-studio/public/favicon-32x32.png \
+            artifacts/advanced-creation-studio/public/favicon.ico \
+            artifacts/advanced-creation-studio/public/apple-touch-icon.png \
+            artifacts/advanced-creation-studio/public/android-chrome-192x192.png \
+            artifacts/advanced-creation-studio/public/android-chrome-512x512.png \
+            artifacts/advanced-creation-studio/public/android-chrome-192x192-maskable.png \
+            artifacts/advanced-creation-studio/public/android-chrome-512x512-maskable.png
+          if git diff --cached --quiet; then
+            echo "No icon changes"
+            exit 0
+          fi
           git commit -m "chore: update PWA and favicon icon binaries"
           git push
