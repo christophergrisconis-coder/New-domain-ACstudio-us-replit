@@ -32,44 +32,44 @@
 
 :root {
   --background: 40 35% 91%;
-  --foreground: 258 22% 12%;
-  --border: 258 12% 72%;
+  --foreground: 0 0% 10%;
+  --border: 0 0% 72%;
   --card: 40 38% 95%;
-  --card-foreground: 258 22% 12%;
-  --primary: 258 22% 12%;
+  --card-foreground: 0 0% 10%;
+  --primary: 0 0% 10%;
   --primary-foreground: 40 35% 91%;
   --secondary: 68 100% 64%;
-  --secondary-foreground: 258 22% 12%;
+  --secondary-foreground: 0 0% 10%;
   --muted: 39 19% 83%;
-  --muted-foreground: 258 10% 43%;
+  --muted-foreground: 0 0% 43%;
   --accent: 8 79% 63%;
-  --accent-foreground: 258 22% 12%;
+  --accent-foreground: 0 0% 10%;
   --destructive: 8 79% 52%;
   --destructive-foreground: 40 38% 95%;
-  --input: 258 12% 65%;
+  --input: 0 0% 65%;
   --ring: 68 100% 64%;
   --app-font-sans: 'Space Grotesk', sans-serif;
   --app-font-serif: 'DM Serif Display', Georgia, serif;
   --app-font-mono: 'DM Mono', monospace;
   --radius: 0.65rem;
-  --shadow: 0 18px 50px hsl(258 22% 12% / .13);
-  --shadow-deep: 0 28px 80px hsl(258 22% 12% / .24);
+  --shadow: 0 18px 50px hsl(0 0% 10% / .13);
+  --shadow-deep: 0 28px 80px hsl(0 0% 10% / .24);
 }
 
 .dark {
-  --background: 258 22% 12%;
+  --background: 0 0% 10%;
   --foreground: 40 35% 91%;
-  --border: 258 12% 30%;
-  --card: 258 18% 17%;
+  --border: 0 0% 30%;
+  --card: 0 0% 15%;
   --card-foreground: 40 35% 91%;
   --primary: 68 100% 64%;
-  --primary-foreground: 258 22% 12%;
-  --secondary: 258 18% 21%;
+  --primary-foreground: 0 0% 10%;
+  --secondary: 0 0% 21%;
   --secondary-foreground: 40 35% 91%;
-  --muted: 258 15% 23%;
+  --muted: 0 0% 23%;
   --muted-foreground: 40 14% 68%;
   --accent: 8 79% 63%;
-  --accent-foreground: 258 22% 12%;
+  --accent-foreground: 0 0% 10%;
   --ring: 68 100% 64%;
 }
 
@@ -80,12 +80,12 @@
     @apply antialiased;
     margin: 0;
     background: #eee7d5;
-    color: #201a2a;
+    color: #0a0a0a;
   }
   button, a, input, textarea { -webkit-tap-highlight-color: transparent; }
 }
 
-::selection { background: #d8ff45; color: #201a2a; }
+::selection { background: #d8ff45; color: #0a0a0a; }
 .studio-shell { overflow: clip; background: #eee7d5; }
 .display-face { font-family: var(--app-font-sans); letter-spacing: -.075em; font-weight: 600; }
 .serif-face { font-family: var(--app-font-serif); }
@@ -96,7 +96,7 @@
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
 }
 .hero-grid {
-  background-color: #201a2a;
+  background-color: #0a0a0a;
   isolation: isolate;
 }
 .hero-ambient { z-index: -1; }
