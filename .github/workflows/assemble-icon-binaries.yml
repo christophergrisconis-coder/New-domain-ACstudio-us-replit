@@ -14,26 +14,47 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch and write exact icon-binaries.b64.json
+
+      - name: Decode icon binaries into PNG/ICO assets
         run: |
           set -euo pipefail
-          OUT="artifacts/advanced-creation-studio/public/icon-binaries.b64.json"
-          URL="https://tmpfiles.org/dl/1787756529.0c17214fb5d62357/wGwZG7vJGkZD/icon-content-only.txt"
-          EXPECTED="eb97f35fd35269b68055e4d444bbb09e492ff0fedc51ec3d234facea5bb4cda4"
-          curl -fsSL -A "Mozilla/5.0" -o "$OUT" "$URL"
-          ACTUAL=$(sha256sum "$OUT" | awk '{print $1}')
-          test "$ACTUAL" = "$EXPECTED"
-          test "$(wc -c < "$OUT")" -eq 92791
-          rm -rf artifacts/advanced-creation-studio/public/.icon-staging
-          rm -f artifacts/advanced-creation-studio/public/_probe-11k.json
+          python3 artifacts/advanced-creation-studio/scripts/decode-icon-binaries.py
+          test -f artifacts/advanced-creation-studio/public/apple-touch-icon.png
+          test -f artifacts/advanced-creation-studio/public/android-chrome-512x512.png
+          test -f artifacts/advanced-creation-studio/public/android-chrome-512x512-maskable.png
+          test -f artifacts/advanced-creation-studio/public/favicon.ico
+          # Ensure no white corner padding
+          python3 - <<'PY'
+          from pathlib import Path
+          try:
+            from PIL import Image
+          except ImportError:
+            import subprocess, sys
+            subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-q', 'pillow'])
+            from PIL import Image
+          im = Image.open('artifacts/advanced-creation-studio/public/android-chrome-512x512.png').convert('RGB')
+          corner = im.getpixel((0, 0))
+          assert corner[0] < 80, corner
+          print('corner OK', corner)
+          PY
+
+      - name: Commit decoded PWA and favicon icons
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$OUT"
-          git add -u artifacts/advanced-creation-studio/public/.icon-staging || true
-          git add -u artifacts/advanced-creation-studio/public/_probe-11k.json || true
+          git add \
+            artifacts/advanced-creation-studio/public/favicon-16x16.png \
+            artifacts/advanced-creation-studio/public/favicon-32x32.png \
+            artifacts/advanced-creation-studio/public/favicon.ico \
+            artifacts/advanced-creation-studio/public/apple-touch-icon.png \
+            artifacts/advanced-creation-studio/public/android-chrome-192x192.png \
+            artifacts/advanced-creation-studio/public/android-chrome-512x512.png \
+            artifacts/advanced-creation-studio/public/android-chrome-192x192-maskable.png \
+            artifacts/advanced-creation-studio/public/android-chrome-512x512-maskable.png
           if git diff --cached --quiet; then
-            echo "No changes"
+            echo "No icon changes"
             exit 0
           fi
-          git commit -m "Add base64 icon binary bundle for PWA/favicon assets"
+          git commit -m "chore: update PWA and favicon icon binaries"
           git push
