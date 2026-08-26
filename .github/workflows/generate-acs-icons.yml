@@ -1,0 +1,55 @@
+name: Generate ACS Apps icons
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "artifacts/advanced-creation-studio/public/favicon.svg"
+      - "artifacts/advanced-creation-studio/public/acs-icon-master.svg"
+      - "artifacts/advanced-creation-studio/public/acs-icon-maskable.svg"
+      - "artifacts/advanced-creation-studio/public/icon-binaries.b64.json"
+      - "artifacts/advanced-creation-studio/scripts/generate-icons.py"
+      - "artifacts/advanced-creation-studio/scripts/decode-icon-binaries.py"
+      - ".github/workflows/generate-acs-icons.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  icons:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Decode bundled binaries (preferred)
+        run: |
+          if [ -f artifacts/advanced-creation-studio/public/icon-binaries.b64.json ]; then
+            python3 artifacts/advanced-creation-studio/scripts/decode-icon-binaries.py
+          else
+            echo "No b64 bundle; will generate from SVG"
+          fi
+
+      - name: Setup Python for SVG fallback
+        if: hashFiles('artifacts/advanced-creation-studio/public/android-chrome-512x512-maskable.png') == ''
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Cairo + Python deps
+        if: hashFiles('artifacts/advanced-creation-studio/public/android-chrome-512x512-maskable.png') == ''
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcairo2
+          pip install cairosvg pillow
+
+      - name: Generate from SVG masters
+        if: hashFiles('artifacts/advanced-creation-studio/public/android-chrome-512x512-maskable.png') == ''
+        run: python3 artifacts/advanced-creation-studio/scripts/generate-icons.py
+
+      - name: Commit icon assets
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update PWA and favicon icon binaries"
+          file_pattern: |
+            artifacts/advanced-creation-studio/public/*.png
+            artifacts/advanced-creation-studio/public/favicon.ico
