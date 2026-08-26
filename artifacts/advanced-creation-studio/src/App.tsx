@@ -5,8 +5,12 @@ import {
   ArrowUpRight,
   Asterisk,
   Check,
+  Globe,
+  Lock,
   Menu,
   MoveRight,
+  Search,
+  Shield,
   X,
 } from 'lucide-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -29,7 +33,85 @@ type Project = {
   accent: string;
 };
 
+type FrameOption = {
+  src: string;
+  alt?: string;
+};
+
+const framePool: Record<string, FrameOption[]> = {
+  '/visuals/acs-ai-collaboration.jpg': [
+    { src: '/visuals/acs-ai-collaboration.jpg', alt: 'A creative team collaborating around AI-assisted data visualizations' },
+    { src: '/visuals/acs-app-building.jpg', alt: 'Hands sketching app flows and responsive website wireframes beside a laptop' },
+    { src: '/visuals/acs-learning-lab.jpg', alt: 'A student learning digital tools in a brightly lit lab environment' },
+    { src: '/visuals/acs-system-study.jpg', alt: 'Design tokens and adaptive component hierarchy diagrams on display' },
+  ],
+  '/visuals/acs-future-signal.jpg': [
+    { src: '/visuals/acs-future-signal.jpg', alt: 'A prototype website being presented to a collaborative makerspace group' },
+    { src: '/visuals/acs-[#6aa8ff]-signal.jpg', alt: 'A sound reactive projection installation glowing in a studio space' },
+    { src: '/visuals/acs-horizon.jpg', alt: 'Clean graphic horizon illustration representing creative direction' },
+    { src: '/visuals/acs-topographic-field.jpg', alt: 'Layered vector contours of a digital landscape design' },
+  ],
+  '/visuals/acs-app-building.jpg': [
+    { src: '/visuals/acs-app-building.jpg', alt: 'Hands sketching app flows and responsive website wireframes beside a laptop' },
+    { src: '/visuals/acs-ai-collaboration.jpg', alt: 'A creative team collaborating around AI-assisted data visualizations' },
+    { src: '/visuals/acs-glass-form.jpg', alt: 'A geometric glass sculpture catching soft ambient light' },
+    { src: '/visuals/acs-editorial-still-life.jpg', alt: 'Printed design books and specimen sheets stacked on a wooden studio desk' },
+  ],
+  '/visuals/acs-access-design.jpg': [
+    { src: '/visuals/acs-access-design.jpg', alt: 'Hands arranging tactile interface cards and adaptive technology tools' },
+    { src: '/visuals/acs-reentry-pathway.jpg', alt: 'A person walking toward an open doorway in a welcoming community center' },
+    { src: '/visuals/acs-studio-object.jpg', alt: 'A solitary modern ceramic object placed against a warm neutral wall' },
+    { src: '/visuals/acs-system-study.jpg', alt: 'Design tokens and adaptive component hierarchy diagrams on display' },
+  ],
+  '/visuals/acs-reentry-pathway.jpg': [
+    { src: '/visuals/acs-reentry-pathway.jpg', alt: 'A person walking toward an open doorway in a welcoming community center' },
+    { src: '/visuals/acs-access-design.jpg', alt: 'Hands arranging tactile interface cards and adaptive technology tools' },
+    { src: '/visuals/acs-learning-lab.jpg', alt: 'A student learning digital tools in a brightly lit lab environment' },
+    { src: '/visuals/acs-horizon.jpg', alt: 'Clean graphic horizon illustration representing creative direction' },
+  ],
+};
+
 const projects: Project[] = [
+  {
+    name: 'Lawyers Legal Beef (L.L.B)',
+    type: 'Legal Intelligence / SaaS Platform',
+    year: '2026',
+    description: '4th Circuit case law database, courtroom PWA offline sync, and automated legal practice tools.',
+    url: 'llb.acstudioapps.us',
+    image: '/visuals/acs-ai-collaboration.jpg',
+    imageAlt: 'Lawyers Legal Beef legal briefing and precedent engine interface',
+    accent: '#d8ff45',
+  },
+  {
+    name: 'Star Buster',
+    type: 'WebGL Interactive Game / Web App',
+    year: '2026',
+    description: 'An arcade space exploration adventure with live player telemetry and power-up progression.',
+    url: 'starbuster.acstudioapps.us',
+    image: '/visuals/acs-future-signal.jpg',
+    imageAlt: 'Star Buster deep-space navigation game experience',
+    accent: '#6aa8ff',
+  },
+  {
+    name: 'CodeLabs Editorial',
+    type: 'Interactive Developer Curriculum & AI Lab',
+    year: '2026',
+    description: 'Code terminology lessons, practice terminals, and offline LabRat AI coding assistant.',
+    url: 'codelabs.acstudioapps.us',
+    image: '/visuals/acs-learning-lab.jpg',
+    imageAlt: 'CodeLabs interactive learning environment',
+    accent: '#6aa8ff',
+  },
+  {
+    name: 'NexusLore',
+    type: 'Secret Hunting & Interactive Game Guides',
+    year: '2026',
+    description: 'Interactive walkthroughs, real-time secret discovery boards, and collaborative puzzle solvers.',
+    url: 'nexuslore.acstudioapps.us',
+    image: '/visuals/acs-glass-form.jpg',
+    imageAlt: 'NexusLore secret hunting and walkthrough portal',
+    accent: '#e76f5c',
+  },
   {
     name: 'Afterglow',
     type: 'Digital identity / WebGL',
@@ -72,39 +154,26 @@ const projects: Project[] = [
   },
 ];
 
-type VisualFrame = {
-  src: string;
-  alt: string;
-};
+function scrollToSection(id: string) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+}
 
-const visualFrames: VisualFrame[] = [
-  { src: '/visuals/acs-ai-collaboration.jpg', alt: 'A creative team collaborating around AI-assisted data visualizations' },
-  { src: '/visuals/acs-app-building.jpg', alt: 'Hands sketching app flows and responsive website wireframes beside a laptop' },
-  { src: '/visuals/acs-learning-lab.jpg', alt: 'Adult learners collaborating in a bright community technology classroom' },
-  { src: '/visuals/acs-reentry-pathway.jpg', alt: 'A person walking toward an open doorway in a welcoming community technology center' },
-  { src: '/visuals/acs-access-design.jpg', alt: 'Hands arranging tactile interface cards and adaptive technology tools' },
-  { src: '/visuals/acs-future-signal.jpg', alt: 'A prototype website being presented to a collaborative makerspace group' },
-  { src: '/visuals/acs-ai-interface.jpg', alt: 'A person testing a humane AI interface in a warm technology workspace' },
-  { src: '/visuals/acs-code-pairing.jpg', alt: 'Two developers pair-programming on a web interface in a welcoming studio' },
-  { src: '/visuals/acs-mentor-session.jpg', alt: 'An adult mentor helping a learner with a web development exercise' },
-  { src: '/visuals/acs-community-network.jpg', alt: 'Adults connecting around shared work tables in a community technology hub' },
-  { src: '/visuals/acs-digital-portfolio.jpg', alt: 'A digital portfolio and project timeline being reviewed beside a laptop' },
-  { src: '/visuals/acs-open-door-workshop.jpg', alt: 'Adults carrying laptops into a welcoming technology learning workshop' },
-];
-
-function useFrameShuffle(initialSrc: string) {
-  const initialIndex = Math.max(0, visualFrames.findIndex((frame) => frame.src === initialSrc));
-  const [frameIndex, setFrameIndex] = useState(initialIndex);
+function useFrameShuffle(initialSrc: string, intervalMs = 7000) {
+  const options = framePool[initialSrc] || [{ src: initialSrc }];
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = window.setInterval(() => {
-      setFrameIndex((current) => (current + 1) % visualFrames.length);
-    }, 4200);
-    return () => window.clearInterval(timer);
-  }, []);
+    if (options.length <= 1) return;
+    const timer = setInterval(() => {
+      setIndex((current) => (current + 1) % options.length);
+    }, intervalMs);
+    return () => clearInterval(timer);
+  }, [options, intervalMs]);
 
-  return visualFrames[frameIndex];
+  return options[index];
 }
 
 function useReveal<T extends HTMLElement>() {
@@ -152,7 +221,7 @@ function ScrollEngine() {
 function Logo({ dark = false }: { dark?: boolean }) {
   return (
     <a
-      href="#top"
+      href="/"
       className={`focus-ring flex items-center gap-3 ${dark ? 'text-[#eee7d5]' : 'text-[#201a2a]'}`}
       data-testid="link-logo"
       aria-label="Advanced Creation Studio home"
@@ -246,43 +315,114 @@ function Home() {
   return (
     <main id="top" className="studio-shell grain min-h-[100dvh] text-[#201a2a]">
       <ScrollEngine />
-      <header className="absolute left-0 right-0 top-0 z-30 mx-auto flex max-w-[1440px] items-center justify-between px-5 py-6 sm:px-8 lg:px-12">
+      
+      {/* Sticky Header with Prominent PROJECTS Tab */}
+      <header className="sticky top-0 z-50 bg-[#201a2a]/95 backdrop-blur-md border-b border-[#eee7d5]/15 py-3 px-5 sm:px-8 lg:px-12 flex items-center justify-between">
         <Logo dark />
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Main navigation">
-          <a href="#studio" className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/70 transition-colors hover:text-[#d8ff45]" data-testid="link-nav-studio">Studio</a>
-          <a href="#reentry" className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/70 transition-colors hover:text-[#d8ff45]" data-testid="link-nav-reentry">Re-entry</a>
-          <a href="#work" className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/70 transition-colors hover:text-[#d8ff45]" data-testid="link-nav-work">Work</a>
-          <a href="#approach" className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/70 transition-colors hover:text-[#d8ff45]" data-testid="link-nav-approach">Approach</a>
-          <a href="#contact" className="focus-ring group flex items-center gap-2 rounded-full border border-[#d8ff45] px-4 py-2 mono-face text-[10px] uppercase tracking-[.12em] text-[#d8ff45] transition-colors hover:bg-[#d8ff45] hover:text-[#201a2a]" data-testid="link-nav-contact">
-            Start a project <ArrowUpRight className="magnetic-arrow h-3.5 w-3.5" />
+        
+        <div className="flex items-center gap-6">
+          <nav className="hidden items-center gap-6 md:flex" aria-label="Main navigation">
+            <button
+              onClick={() => scrollToSection('studio')}
+              className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/80 transition-colors hover:text-[#d8ff45]"
+              data-testid="link-nav-studio"
+            >
+              Studio
+            </button>
+            <button
+              onClick={() => scrollToSection('reentry')}
+              className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/80 transition-colors hover:text-[#d8ff45]"
+              data-testid="link-nav-reentry"
+            >
+              Re-entry
+            </button>
+            <button
+              onClick={() => scrollToSection('work')}
+              className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/80 transition-colors hover:text-[#d8ff45]"
+              data-testid="link-nav-work"
+            >
+              Work
+            </button>
+            <button
+              onClick={() => scrollToSection('approach')}
+              className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/80 transition-colors hover:text-[#d8ff45]"
+              data-testid="link-nav-approach"
+            >
+              Approach
+            </button>
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/80 transition-colors hover:text-[#d8ff45]"
+              data-testid="link-nav-contact"
+            >
+              Contact
+            </button>
+          </nav>
+
+          {/* Top-Right Centered Prominent PROJECTS Tab */}
+          <a
+            href="/projects"
+            className="focus-ring group relative flex flex-col items-center justify-center rounded-xl bg-gradient-to-r from-[#d8ff45] via-[#e76f5c] to-[#6aa8ff] p-[2.5px] shadow-[0_0_24px_rgba(216,255,69,0.4)] transition-all hover:scale-105 hover:shadow-[0_0_36px_rgba(216,255,69,0.6)]"
+            data-testid="link-nav-projects-tab"
+          >
+            <div className="flex flex-col items-center justify-center rounded-[9px] bg-[#201a2a] px-5 py-1.5 transition-colors group-hover:bg-[#2c233c]">
+              <span className="mono-face text-[9px] uppercase tracking-[.22em] text-[#d8ff45] font-semibold leading-none">
+                Check out our
+              </span>
+              <span className="display-face text-lg font-black uppercase leading-tight tracking-widest text-[#eee7d5] group-hover:text-[#d8ff45] flex items-center gap-1.5 mt-0.5">
+                PROJECTS <ArrowUpRight className="h-4 w-4 text-[#d8ff45] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </span>
+            </div>
           </a>
-        </nav>
-        <button
-          type="button"
-          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((open) => !open)}
-          className="focus-ring grid h-10 w-10 place-items-center rounded-full border border-[#eee7d5]/40 text-[#eee7d5] md:hidden"
-          data-testid="button-mobile-menu"
-        >
-          {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-        </button>
+
+          <button
+            type="button"
+            aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+            className="focus-ring grid h-10 w-10 place-items-center rounded-full border border-[#eee7d5]/40 text-[#eee7d5] md:hidden"
+            data-testid="button-mobile-menu"
+          >
+            {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </div>
       </header>
 
       {menuOpen && (
-        <div className="absolute inset-x-4 top-20 z-20 rounded-xl border border-[#d8ff45]/60 bg-[#332b40] p-5 shadow-2xl md:hidden" data-testid="menu-mobile">
-          <nav className="flex flex-col gap-5" aria-label="Mobile navigation">
-            {['studio', 'reentry', 'work', 'approach', 'contact'].map((item) => (
-              <a key={item} href={`#${item}`} onClick={closeMenu} className="focus-ring mono-face flex items-center justify-between border-b border-[#eee7d5]/15 pb-4 text-[11px] uppercase tracking-[.18em] text-[#eee7d5]" data-testid={`link-mobile-${item}`}>
-                {item === 'contact' ? 'Start a project' : item === 'reentry' ? 'Re-entry' : item}
+        <div className="fixed inset-x-4 top-20 z-50 rounded-xl border border-[#d8ff45]/60 bg-[#332b40] p-5 shadow-2xl md:hidden" data-testid="menu-mobile">
+          <nav className="flex flex-col gap-4" aria-label="Mobile navigation">
+            <a href="/projects" onClick={closeMenu} className="focus-ring flex items-center justify-between rounded-lg bg-[#d8ff45] p-3 text-[#201a2a] font-bold">
+              <div>
+                <div className="text-[9px] uppercase tracking-[.18em]">Check out our</div>
+                <div className="text-xl uppercase font-black">PROJECTS</div>
+              </div>
+              <ArrowUpRight className="h-6 w-6" />
+            </a>
+            {[
+              ['studio', 'Studio'],
+              ['reentry', 'Re-entry'],
+              ['work', 'Work'],
+              ['approach', 'Approach'],
+              ['contact', 'Contact'],
+            ].map(([id, label]) => (
+              <button
+                key={id}
+                onClick={() => { closeMenu(); scrollToSection(id); }}
+                className="focus-ring mono-face flex items-center justify-between border-b border-[#eee7d5]/15 pb-3 text-[11px] uppercase tracking-[.18em] text-[#eee7d5] text-left"
+                data-testid={`link-mobile-${id}`}
+              >
+                {label}
                 <ArrowUpRight className="h-4 w-4 text-[#d8ff45]" />
-              </a>
+              </button>
             ))}
+            <a href="/privacy" onClick={closeMenu} className="mono-face text-[10px] uppercase tracking-[.18em] text-[#d8ff45]">
+              Privacy Policy →
+            </a>
           </nav>
         </div>
       )}
 
-      <section className="hero-grid relative min-h-[820px] px-5 pb-16 pt-36 text-[#eee7d5] sm:px-8 lg:min-h-[950px] lg:px-12 lg:pt-44" aria-labelledby="hero-title">
+      <section className="hero-grid relative min-h-[750px] px-5 pb-16 pt-24 text-[#eee7d5] sm:px-8 lg:min-h-[880px] lg:px-12 lg:pt-32" aria-labelledby="hero-title">
         <div className="hero-ambient pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
           <img className="hero-mission-image hero-mission-image-one" src="/visuals/acs-ai-collaboration.jpg" alt="" />
           <img className="hero-mission-image hero-mission-image-two" src="/visuals/acs-app-building.jpg" alt="" />
@@ -290,21 +430,15 @@ function Home() {
           <img className="hero-mission-image hero-mission-image-four" src="/visuals/acs-reentry-pathway.jpg" alt="" />
           <img className="hero-mission-image hero-mission-image-five" src="/visuals/acs-access-design.jpg" alt="" />
           <img className="hero-mission-image hero-mission-image-six" src="/visuals/acs-future-signal.jpg" alt="" />
-          <img className="hero-mission-image hero-mission-image-seven" src="/visuals/acs-ai-interface.jpg" alt="" />
-          <img className="hero-mission-image hero-mission-image-eight" src="/visuals/acs-code-pairing.jpg" alt="" />
-          <img className="hero-mission-image hero-mission-image-nine" src="/visuals/acs-mentor-session.jpg" alt="" />
-          <img className="hero-mission-image hero-mission-image-ten" src="/visuals/acs-community-network.jpg" alt="" />
-          <img className="hero-mission-image hero-mission-image-eleven" src="/visuals/acs-digital-portfolio.jpg" alt="" />
-          <img className="hero-mission-image hero-mission-image-twelve" src="/visuals/acs-open-door-workshop.jpg" alt="" />
           <div className="ambient-orb ambient-orb-one" />
           <div className="ambient-orb ambient-orb-two" />
           <div className="ambient-scanline" />
         </div>
-        <div className="editorial-wrap relative flex min-h-[650px] flex-col justify-between">
+        <div className="editorial-wrap relative flex min-h-[600px] flex-col justify-between">
           <div className="relative z-10 max-w-6xl">
             <Reveal className="flex items-center gap-3 text-[#d8ff45]">
               <Asterisk className="h-5 w-5" />
-              <span className="mono-face text-[10px] uppercase tracking-[.18em]">Independent creative technology studio / 2025</span>
+              <span className="mono-face text-[10px] uppercase tracking-[.18em]">Independent creative technology studio / 2026</span>
             </Reveal>
             <Reveal delay="reveal-delay-1">
               <h1 id="hero-title" className="display-face hero-giant mt-9 max-w-[1100px]">
@@ -314,7 +448,7 @@ function Home() {
               </h1>
             </Reveal>
           </div>
-          <div className="relative z-10 mt-20 grid gap-10 lg:grid-cols-[1fr_280px] lg:items-end">
+          <div className="relative z-10 mt-16 grid gap-10 lg:grid-cols-[1fr_280px] lg:items-end">
             <Reveal delay="reveal-delay-2">
               <p className="max-w-[620px] text-xl leading-[1.1] text-[#eee7d5]/76 sm:text-2xl">
                 Advanced Creation Studio brings the sharpness of a small team to ambitious ideas — from first signal to a digital experience people can feel.
@@ -322,31 +456,29 @@ function Home() {
             </Reveal>
             <Reveal delay="reveal-delay-3" className="flex items-end justify-between border-t border-[#eee7d5]/25 pt-4">
               <span className="mono-face max-w-[150px] text-[10px] uppercase leading-[1.5] tracking-[.14em] text-[#eee7d5]/55">Scroll to enter<br />the studio</span>
-              <a href="#studio" className="focus-ring grid h-14 w-14 place-items-center rounded-full bg-[#e76f5c] text-[#201a2a] transition-transform hover:-translate-y-1" data-testid="link-hero-scroll" aria-label="Scroll to studio">
+              <button onClick={() => scrollToSection('studio')} className="focus-ring grid h-14 w-14 place-items-center rounded-full bg-[#e76f5c] text-[#201a2a] transition-transform hover:-translate-y-1" data-testid="link-hero-scroll" aria-label="Scroll to studio">
                 <ArrowDown className="h-5 w-5" />
-              </a>
+              </button>
             </Reveal>
           </div>
-          <div className="pointer-events-none absolute right-[10%] top-[49%] hidden h-3 w-3 rounded-full bg-[#e76f5c] lg:block" />
-          <div className="pointer-events-none absolute bottom-0 right-[37%] hidden h-48 w-px bg-[#eee7d5]/15 lg:block"><div className="scroll-line h-full w-full bg-[#d8ff45]" /></div>
         </div>
-        <span className="vertical-label mono-face absolute bottom-16 right-5 text-[9px] uppercase tracking-[.2em] text-[#eee7d5]/45 lg:right-12">Issue 05 / The useful strange</span>
       </section>
 
-      <div className="overflow-hidden border-b border-[#201a2a]/20 bg-[#d8ff45] py-3" aria-label="Studio principles">
-        <div className="marquee-track flex w-max items-center gap-8 whitespace-nowrap">
-          {[0, 1, 2, 3].map((item) => (
-            <div key={item} className="flex items-center gap-8">
-              <span className="mono-face text-[10px] uppercase tracking-[.2em]">Ideas with a pulse</span><Asterisk className="h-4 w-4" />
-              <span className="mono-face text-[10px] uppercase tracking-[.2em]">Direction / design / development</span><Asterisk className="h-4 w-4" />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <section id="studio" className="scroll-mt-8 px-5 py-28 sm:px-8 lg:px-12 lg:py-44">
+      <section id="studio" className="scroll-mt-20 px-5 py-28 sm:px-8 lg:px-12 lg:py-44">
         <div className="editorial-wrap grid gap-16 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
-          <Reveal><SectionLabel number="01">The studio</SectionLabel></Reveal>
+          <div className="flex flex-col">
+            <Reveal><SectionLabel number="01">The studio</SectionLabel></Reveal>
+            <Reveal delay="reveal-delay-2" className="hidden lg:block mt-auto pt-24">
+              <ImageChapter 
+                src="/visuals/acs-studio-object.jpg" 
+                alt="Abstract studio object signifying creation" 
+                label="Object / 00" 
+                caption="Form meets function." 
+                className="h-[420px] w-full grayscale-[0.3]" 
+                imageClassName="scale-[1.15] object-center" 
+              />
+            </Reveal>
+          </div>
           <div>
             <Reveal>
               <h2 className="display-face max-w-4xl text-[clamp(3rem,7vw,7.4rem)] leading-[.86]">
@@ -361,49 +493,24 @@ function Home() {
               <ImageChapter src="/visuals/acs-ai-collaboration.jpg" alt="A creative team collaborating around AI-assisted data visualizations" label="Human + machine / 01" caption="The best intelligence is shared." className="h-[480px] sm:h-[620px]" imageClassName="scale-[1.12] object-[58%_54%]" />
             </Reveal>
             <Reveal delay="reveal-delay-3">
-              <a href="#contact" className="focus-ring group mt-10 inline-flex items-center gap-3 border-b border-[#201a2a] pb-2 text-sm font-semibold" data-testid="link-studio-contact">
+              <button onClick={() => scrollToSection('contact')} className="focus-ring group mt-10 inline-flex items-center gap-3 border-b border-[#201a2a] pb-2 text-sm font-semibold" data-testid="link-studio-contact">
                 Bring us the hard part <ArrowUpRight className="magnetic-arrow h-4 w-4" />
-              </a>
+              </button>
             </Reveal>
           </div>
         </div>
       </section>
 
-      <section id="reentry" className="reentry-section scroll-mt-8 border-y border-[#201a2a]/20 bg-[#d8ff45] px-5 py-24 sm:px-8 lg:px-12 lg:py-36" aria-labelledby="reentry-title">
-        <div className="editorial-wrap grid gap-14 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
-          <Reveal>
-            <SectionLabel number="02">Re-entry / education</SectionLabel>
-          </Reveal>
+      <section id="reentry" className="reentry-section scroll-mt-20 border-y border-[#201a2a]/20 bg-[#d8ff45] px-5 py-24 sm:px-8 lg:px-12 lg:py-36" aria-labelledby="reentry-title">
+        <div className="editorial-wrap grid gap-14 lg:grid-cols-[.95fr_1.05fr] lg:items-end">
           <div>
-            <Reveal>
-              <h2 id="reentry-title" className="display-face max-w-5xl text-[clamp(3rem,7vw,7.5rem)] leading-[.83]">
-                A way back into the room — and a way to <span className="serif-face font-normal italic text-[#e76f5c]">change it.</span>
-              </h2>
-            </Reveal>
-            <Reveal delay="reveal-delay-1" className="mt-12 grid gap-8 border-t border-[#201a2a]/25 pt-7 sm:grid-cols-2">
-              <p className="text-lg leading-[1.35] text-[#201a2a]/75">
-                Advanced Creation Studio is rooted in re-entry and technology education. We make space for people rebuilding their creative and technical lives — with practical tools, patient collaboration, and work that meets them at their full potential.
-              </p>
-              <p className="text-lg leading-[1.35] text-[#201a2a]/75">
-                That experience shapes how we build with everyone: access is part of the brief, learning is part of the process, and a good digital experience should leave more doors open than it found.
-              </p>
-            </Reveal>
-            <Reveal delay="reveal-delay-2" className="mt-14 grid gap-8 lg:grid-cols-[1.05fr_.95fr] lg:items-end">
-              <ImageChapter
-                src="/visuals/acs-learning-lab.jpg"
-                alt="Adult learners collaborating in a bright community technology classroom"
-                label="Learning together / 02"
-                caption="Keep the door open. Keep the signal moving."
-                className="h-[360px] sm:h-[500px]"
-                imageClassName="object-[52%_48%]"
-              />
-              <div className="reentry-signal flex min-h-[220px] flex-col justify-between border border-[#201a2a]/30 bg-[#eee7d5] p-6 sm:p-8">
-                <span className="mono-face text-[9px] uppercase tracking-[.16em] text-[#201a2a]/60">Open invitation</span>
-                <p className="display-face max-w-xs text-3xl leading-[.92]">Bring a question, a class, or a next chapter.</p>
-                <a href="#contact" className="focus-ring group inline-flex w-fit items-center gap-3 border-b border-[#201a2a] pb-2 text-sm font-semibold" data-testid="link-reentry-contact">
-                  Find a way in <ArrowUpRight className="magnetic-arrow h-4 w-4" />
-                </a>
-              </div>
+            <Reveal><SectionLabel number="02">Flagship Re-Entry</SectionLabel></Reveal>
+            <Reveal delay="reveal-delay-1"><h2 id="reentry-title" className="display-face mt-7 max-w-2xl text-[clamp(3.4rem,8vw,8.2rem)] leading-[.78]">Audited outcomes.<br /><span className="serif-face font-normal italic text-[#e76f5c]">Real human impact.</span></h2></Reveal>
+          </div>
+          <div>
+            <Reveal><p className="max-w-xl text-xl leading-[1.15] text-[#201a2a]/75 sm:text-2xl">A dedicated technology & mentorship pathway helping formerly incarcerated individuals build digital skills, software literacy, and high-retention careers.</p></Reveal>
+            <Reveal delay="reveal-delay-1" className="mt-10">
+              <ImageChapter src="/visuals/acs-reentry-pathway.jpg" alt="A person walking toward an open doorway in a welcoming community center" label="Re-entry cohort / 02" caption="Restoring dignity through creation." className="h-[380px] sm:h-[520px]" imageClassName="object-[54%_50%]" />
             </Reveal>
           </div>
         </div>
@@ -416,59 +523,41 @@ function Home() {
             <span className="mono-face text-[10px] uppercase tracking-[.14em] text-[#201a2a]/55">One team, end to end</span>
           </div>
           <h2 id="capabilities-title" className="sr-only">Our capabilities</h2>
-          <Reveal className="mt-14">
-            <div className="grid overflow-hidden border border-[#201a2a]/25 lg:grid-cols-[1.25fr_.75fr]">
-              <ImageChapter src="/visuals/acs-app-building.jpg" alt="Hands sketching app flows and responsive website wireframes beside a laptop" label="Build in public / 03" caption="The mess is where the method begins." className="h-[340px] lg:h-[500px]" imageClassName="object-[50%_55%]" />
-              <div className="flex flex-col justify-between bg-[#201a2a] p-6 text-[#eee7d5] sm:p-10">
-                <span className="mono-face text-[9px] uppercase tracking-[.16em] text-[#d8ff45]">The work is the system</span>
-                <span className="display-face mt-12 max-w-xs text-4xl leading-[.92]">Form, feeling, and function in the same room.</span>
-              </div>
-            </div>
-          </Reveal>
-          <div className="mt-16 grid divide-y divide-[#201a2a]/25 border-y border-[#201a2a]/25 lg:grid-cols-2 lg:divide-x lg:divide-y-0">
+
+          <div className="mt-20 grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              ['01', 'Creative direction', 'Find the signal. Name the feeling. Give the work a point of view that can hold up in the wild.'],
-              ['02', 'Identity & design', 'Build visual systems with enough character to be recognized and enough range to stay alive.'],
-              ['03', 'Digital experiences', 'Design and ship the places people meet your idea — websites, products, worlds, and everything between.'],
-              ['04', 'Creative development', 'Make the beautiful thing work. Technical craft, motion, and weird little details included.'],
-            ].map(([number, title, copy], index) => (
-              <Reveal key={number} delay={index % 2 ? 'reveal-delay-1' : ''}>
-                <article className="group flex min-h-[240px] flex-col justify-between p-6 transition-colors hover:bg-[#d8ff45] sm:p-8 lg:p-10" data-testid={`card-capability-${number}`}>
-                  <div className="flex items-start justify-between"><span className="mono-face text-[10px] text-[#201a2a]/55">{number}</span><ArrowUpRight className="h-5 w-5 opacity-0 transition-opacity group-hover:opacity-100" /></div>
-                  <div><h3 className="display-face text-3xl">{title}</h3><p className="mt-3 max-w-md text-sm leading-[1.4] text-[#201a2a]/65">{copy}</p></div>
-                </article>
+              ['Brand systems', 'Visual identity, logo systems, typography, design tokens, and launch guidelines for new platforms.'],
+              ['Web & WebGL', 'High-performance web apps, landing worlds, WebGL shaders, and bespoke responsive systems.'],
+              ['SaaS & Product', 'Full-stack software design, offline-first PWAs, case law engines, and dashboard suites.'],
+              ['AI & Education', 'Interactive AI learning tools, model integration, LabRat assistants, and curriculum hubs.'],
+            ].map(([title, desc], idx) => (
+              <Reveal key={title} delay={idx > 0 ? `reveal-delay-${idx}` : ''}>
+                <div className="border-t border-[#201a2a]/25 pt-6">
+                  <span className="mono-face text-[10px] uppercase tracking-[.14em] text-[#201a2a]/60">0{idx + 1}</span>
+                  <h3 className="display-face mt-4 text-2xl font-bold">{title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-[#201a2a]/75">{desc}</p>
+                </div>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="relative bg-[#201a2a] px-5 py-24 text-[#eee7d5] sm:px-8 lg:px-12 lg:py-32">
-        <div className="editorial-wrap grid items-center gap-10 lg:grid-cols-[.9fr_1.1fr]">
-          <Reveal>
-            <div className="relative z-10 -mr-0 lg:-mr-24">
-              <p className="mono-face text-[10px] uppercase tracking-[.18em] text-[#d8ff45]">A useful interruption / 04</p>
-              <h2 className="display-face mt-7 text-[clamp(3.5rem,8vw,8.5rem)] leading-[.78]">Make the<br /><span className="serif-face font-normal italic text-[#e76f5c]">strange</span> useful.</h2>
-              <p className="mt-8 max-w-sm text-lg leading-[1.25] text-[#eee7d5]/60">The best digital work carries a little friction. Something to look at twice. Something that refuses to flatten.</p>
-            </div>
-          </Reveal>
-          <Reveal delay="reveal-delay-2">
-            <ImageChapter src="/visuals/acs-learning-lab.jpg" alt="Adult learners collaborating in a bright community technology classroom" label="Learning together / 03" caption="Keep the evidence of the hand." className="h-[470px] rotate-2 sm:h-[620px] lg:ml-10" imageClassName="scale-[1.08]" />
-          </Reveal>
-        </div>
-      </section>
-
-      <section id="work" className="scroll-mt-8 bg-[#eee7d5] px-5 py-28 sm:px-8 lg:px-12 lg:py-44" aria-labelledby="work-title">
+      <section id="work" className="scroll-mt-20 bg-[#eee7d5] px-5 py-28 sm:px-8 lg:px-12 lg:py-44" aria-labelledby="work-title">
         <div className="editorial-wrap">
           <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-end">
             <div>
-              <Reveal><SectionLabel number="05">Selected work</SectionLabel></Reveal>
+              <Reveal><SectionLabel number="04">Selected work</SectionLabel></Reveal>
               <Reveal delay="reveal-delay-1"><h2 id="work-title" className="display-face mt-7 max-w-4xl text-[clamp(3.4rem,8vw,8.4rem)] leading-[.8]">Some things<br /><span className="serif-face font-normal italic text-[#e76f5c]">we set in motion.</span></h2></Reveal>
             </div>
-            <Reveal delay="reveal-delay-2"><p className="max-w-[220px] text-sm leading-[1.4] text-[#201a2a]/60">A few worlds we have helped move from a sketch to a living URL.</p></Reveal>
+            <Reveal delay="reveal-delay-2">
+              <a href="/projects" className="focus-ring inline-flex items-center gap-2 rounded-full bg-[#201a2a] px-6 py-3 mono-face text-[10px] uppercase tracking-[.14em] text-[#d8ff45] transition-transform hover:-translate-y-1">
+                View all projects →
+              </a>
+            </Reveal>
           </div>
           <div className="mt-20 grid gap-x-6 gap-y-16 sm:grid-cols-2">
-            {projects.map((project, index) => (
+            {projects.slice(0, 4).map((project, index) => (
               <Reveal key={project.name} delay={index === 1 || index === 3 ? 'reveal-delay-1' : ''} className={index % 2 === 1 ? 'sm:mt-24' : ''}>
                 <article className="project-card group" data-testid={`card-project-${project.name.toLowerCase().replaceAll(' ', '-')}`}>
                   <button type="button" onClick={() => setSelectedProject(project)} className="focus-ring block w-full text-left" data-testid={`button-project-${project.name.toLowerCase().replaceAll(' ', '-')}`}>
@@ -485,59 +574,21 @@ function Home() {
         </div>
       </section>
 
-      <section id="approach" className="scroll-mt-8 bg-[#201a2a] px-5 py-28 text-[#eee7d5] sm:px-8 lg:px-12 lg:py-44" aria-labelledby="approach-title">
+      <section id="approach" className="scroll-mt-20 bg-[#201a2a] px-5 py-28 text-[#eee7d5] sm:px-8 lg:px-12 lg:py-44" aria-labelledby="approach-title">
         <div className="editorial-wrap grid gap-16 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
-          <Reveal><SectionLabel number="06" inverse>Our approach</SectionLabel></Reveal>
+          <Reveal><SectionLabel number="05" inverse>Our approach</SectionLabel></Reveal>
           <div>
             <Reveal><h2 id="approach-title" className="display-face max-w-4xl text-[clamp(3rem,7vw,7.2rem)] leading-[.83]">Small enough to care about every pixel. Serious enough to ship the <span className="serif-face font-normal italic text-[#d8ff45]">whole idea.</span></h2></Reveal>
             <Reveal delay="reveal-delay-1" className="mt-14">
               <ImageChapter src="/visuals/acs-reentry-pathway.jpg" alt="A person walking toward an open doorway in a welcoming community technology center" label="A way through / 04" caption="A way through is a way forward." className="h-[330px] sm:h-[490px]" imageClassName="object-[54%_50%]" />
             </Reveal>
-            <div className="mt-16">
-              {[
-                ['01', 'Find the edge', 'We start with the tension in your idea — the part that feels most like you and least like everyone else.'],
-                ['02', 'Make the system', 'A clear creative spine turns early sparks into a world: visual language, interaction rules, and a plan to make it real.'],
-                ['03', 'Ship the feeling', 'We stay close through launch, polish the edges, and leave you with something that can keep moving without us.'],
-              ].map(([number, title, copy], index) => (
-                <Reveal key={number} delay={index === 1 ? 'reveal-delay-1' : ''}>
-                  <div className="grid gap-4 border-t border-[#eee7d5]/20 py-7 sm:grid-cols-[60px_1fr_1.4fr] sm:gap-8">
-                    <span className="mono-face text-[10px] text-[#d8ff45]">{number}</span><h3 className="display-face text-2xl">{title}</h3><p className="max-w-md text-sm leading-[1.45] text-[#eee7d5]/60">{copy}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
           </div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-b border-[#201a2a]/20 bg-[#d8ff45] px-5 py-28 sm:px-8 lg:px-12 lg:py-36" aria-labelledby="domain-title">
-        <div className="editorial-wrap grid gap-14 lg:grid-cols-[.95fr_1.05fr] lg:items-end">
-          <div>
-          <Reveal><SectionLabel number="07">The home base</SectionLabel></Reveal>
-            <Reveal delay="reveal-delay-1"><h2 id="domain-title" className="display-face mt-7 max-w-2xl text-[clamp(3.4rem,8vw,8.2rem)] leading-[.78]">One domain.<br /><span className="serif-face font-normal italic text-[#e76f5c]">Many worlds.</span></h2></Reveal>
-          </div>
-          <div>
-            <Reveal><p className="max-w-xl text-xl leading-[1.15] text-[#201a2a]/75 sm:text-2xl">advancedcreationstudio.com is the front door. Every project can have its own address, its own atmosphere, its own living room.</p></Reveal>
-            <Reveal delay="reveal-delay-1" className="mt-10">
-              <ImageChapter src="/visuals/acs-future-signal.jpg" alt="A prototype website being presented to a collaborative makerspace group" label="Project worlds, connected / 05" caption="A shared address. Many ways forward." className="h-[380px] sm:h-[520px]" imageClassName="object-[53%_50%] mix-blend-multiply" />
-            </Reveal>
-            <Reveal delay="reveal-delay-2" className="mt-10 border-t border-[#201a2a]/30 pt-5">
-              <div className="mono-face flex items-center justify-between text-[10px] uppercase tracking-[.12em]"><span>Studio index</span><span>04 / 04</span></div>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {projects.map((project) => (
-                  <button key={project.name} type="button" onClick={() => setSelectedProject(project)} className="focus-ring rounded-full border border-[#201a2a]/35 px-3 py-2 mono-face text-[9px] uppercase tracking-[.12em] transition-colors hover:bg-[#201a2a] hover:text-[#d8ff45]" data-testid={`button-domain-${project.name.toLowerCase().replaceAll(' ', '-')}`}>
-                    {project.name} <ArrowUpRight aria-hidden="true" className="inline h-3 w-3" />
-                  </button>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" className="scroll-mt-8 bg-[#e76f5c] px-5 py-28 sm:px-8 lg:px-12 lg:py-44" aria-labelledby="contact-title">
+      <section id="contact" className="scroll-mt-20 bg-[#e76f5c] px-5 py-28 sm:px-8 lg:px-12 lg:py-44" aria-labelledby="contact-title">
         <div className="editorial-wrap grid gap-14 lg:grid-cols-[1fr_.65fr] lg:gap-24">
-          <div><Reveal><SectionLabel number="08">Make contact</SectionLabel></Reveal><Reveal delay="reveal-delay-1"><h2 id="contact-title" className="display-face mt-7 max-w-4xl text-[clamp(4rem,10vw,10rem)] leading-[.75]">Have a<br /><span className="serif-face font-normal italic">good one?</span></h2></Reveal><Reveal delay="reveal-delay-2"><p className="mt-8 max-w-md text-lg leading-[1.3] text-[#201a2a]/72">Tell us what you are trying to make, change, or make impossible. We will tell you where to start.</p></Reveal></div>
+          <div><Reveal><SectionLabel number="06">Make contact</SectionLabel></Reveal><Reveal delay="reveal-delay-1"><h2 id="contact-title" className="display-face mt-7 max-w-4xl text-[clamp(4rem,10vw,10rem)] leading-[.75]">Have a<br /><span className="serif-face font-normal italic">good one?</span></h2></Reveal><Reveal delay="reveal-delay-2"><p className="mt-8 max-w-md text-lg leading-[1.3] text-[#201a2a]/72">Tell us what you are trying to make, change, or make impossible. We will tell you where to start.</p></Reveal></div>
           <div>
             {sent ? (
               <div className="border-t border-[#201a2a]/30 pt-7" data-testid="status-contact-sent">
@@ -557,18 +608,20 @@ function Home() {
         </div>
       </section>
 
-      <div className="overflow-hidden border-b border-[#eee7d5]/15 bg-[#201a2a] py-5 text-[#eee7d5]" aria-hidden="true">
-        <div className="marquee-track reverse flex w-max items-center gap-12 whitespace-nowrap opacity-75">
-          {[0, 1, 2, 3].map((item) => <span key={item} className="flex items-center gap-4 serif-face text-3xl italic sm:text-5xl">Built for the next good thing <Asterisk aria-hidden="true" className="h-6 w-6 text-[#d8ff45] sm:h-8 sm:w-8" /></span>)}
-        </div>
-      </div>
-
       <footer className="bg-[#201a2a] px-5 py-10 text-[#eee7d5] sm:px-8 lg:px-12">
         <div className="editorial-wrap flex flex-col justify-between gap-10 sm:flex-row sm:items-end">
           <div><Logo dark /><p className="mono-face mt-8 text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/45">A small studio for large ideas.</p></div>
-          <div className="flex flex-col gap-3 sm:items-end"><a href="mailto:admnowner@advancedcreationstudio.com" className="focus-ring group flex items-center gap-2 text-sm hover:text-[#d8ff45]" data-testid="link-footer-email">admnowner@advancedcreationstudio.com <ArrowUpRight className="magnetic-arrow h-4 w-4" /></a><div className="mono-face text-[9px] uppercase tracking-[.13em] text-[#eee7d5]/40">© 2025 ACS / All signals open</div></div>
+          <div className="flex flex-col gap-3 sm:items-end">
+            <a href="mailto:admnowner@advancedcreationstudio.com" className="focus-ring group flex items-center gap-2 text-sm hover:text-[#d8ff45]" data-testid="link-footer-email">
+              admnowner@advancedcreationstudio.com <ArrowUpRight className="magnetic-arrow h-4 w-4" />
+            </a>
+            <div className="flex gap-6 mono-face text-[9px] uppercase tracking-[.13em] text-[#eee7d5]/50">
+              <a href="/projects" className="hover:text-[#d8ff45]">Projects</a>
+              <a href="/privacy" className="hover:text-[#d8ff45]">Privacy Policy</a>
+            </div>
+            <div className="mono-face text-[9px] uppercase tracking-[.13em] text-[#eee7d5]/40">© 2026 ACS / All signals open</div>
+          </div>
         </div>
-        <div className="editorial-wrap mt-12 flex justify-between border-t border-[#eee7d5]/15 pt-4 mono-face text-[9px] uppercase tracking-[.13em] text-[#eee7d5]/40"><span>Built for the next good thing</span><a href="#top" className="focus-ring" data-testid="link-back-to-top">Back to top ↑</a></div>
       </footer>
 
       {selectedProject && (
@@ -577,11 +630,261 @@ function Home() {
             <button type="button" onClick={() => setSelectedProject(null)} aria-label="Close project details" className="focus-ring absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full border border-[#201a2a]/30 bg-[#eee7d5]/80" data-testid="button-close-project"><X className="h-4 w-4" /></button>
             <div className="aspect-[1.7] pr-12"><ProjectArt project={selectedProject} /></div>
             <div className="mt-7 flex flex-wrap items-start justify-between gap-4"><div><span className="mono-face text-[9px] uppercase tracking-[.14em] text-[#e76f5c]">{selectedProject.year} / {selectedProject.type}</span><h2 id="project-dialog-title" className="display-face mt-2 text-5xl">{selectedProject.name}</h2></div><span className="mono-face pt-2 text-[9px] uppercase tracking-[.1em] text-[#201a2a]/55">Project index</span></div>
-            <p className="mt-5 max-w-lg text-lg leading-[1.3] text-[#201a2a]/70">{selectedProject.description}</p>
-            <div className="mt-8 flex items-center justify-between border-t border-[#201a2a]/20 pt-5"><span className="mono-face max-w-[68%] truncate text-[9px] uppercase tracking-[.1em] text-[#201a2a]/55">{selectedProject.url}</span><button type="button" onClick={() => setSelectedProject(null)} className="focus-ring group flex items-center gap-2 text-sm font-semibold" data-testid="button-close-project-detail">Close <ArrowRight className="magnetic-arrow h-4 w-4" /></button></div>
+            <div className="mt-8 flex items-center justify-between border-t border-[#201a2a]/20 pt-5"><a href={`https://${selectedProject.url}`} target="_blank" rel="noopener noreferrer" className="mono-face max-w-[68%] truncate text-[10px] uppercase tracking-[.1em] text-[#201a2a] hover:text-[#e76f5c] inline-flex items-center gap-1.5 font-bold">{selectedProject.url} <ArrowUpRight className="h-3 w-3" /></a><button type="button" onClick={() => setSelectedProject(null)} className="focus-ring group flex items-center gap-2 text-sm font-semibold" data-testid="button-close-project-detail">Close <ArrowRight className="magnetic-arrow h-4 w-4" /></button></div>
           </div>
         </div>
       )}
+    </main>
+  );
+}
+
+function ProjectsPage() {
+  const [filter, setFilter] = useState('All');
+  const [search, setSearch] = useState('');
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const categories = ['All', 'Subdomains', 'Legal & SaaS', 'Gaming & WebGL', 'Editorial & Labs'];
+
+  const filteredProjects = projects.filter((p) => {
+    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) || 
+                          p.description.toLowerCase().includes(search.toLowerCase()) ||
+                          p.type.toLowerCase().includes(search.toLowerCase());
+    if (!matchesSearch) return false;
+    if (filter === 'All') return true;
+    if (filter === 'Subdomains') return p.url.includes('acstudioapps.us');
+    if (filter === 'Legal & SaaS') return p.type.includes('Legal') || p.type.includes('SaaS');
+    if (filter === 'Gaming & WebGL') return p.type.includes('WebGL') || p.type.includes('Game');
+    if (filter === 'Editorial & Labs') return p.type.includes('Editorial') || p.type.includes('Lab');
+    return true;
+  });
+
+  return (
+    <main className="studio-shell grain min-h-[100dvh] bg-[#201a2a] text-[#eee7d5]">
+      <header className="sticky top-0 z-50 bg-[#201a2a]/95 backdrop-blur-md border-b border-[#eee7d5]/15 py-3 px-5 sm:px-8 lg:px-12 flex items-center justify-between">
+        <Logo dark />
+        <div className="flex items-center gap-6">
+          <a href="/" className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/70 transition-colors hover:text-[#d8ff45]">
+            ← Back to Home
+          </a>
+          <a href="/privacy" className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#d8ff45] hover:underline">
+            Privacy Policy
+          </a>
+        </div>
+      </header>
+
+      <section className="px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
+        <div className="editorial-wrap">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <SectionLabel number="01" inverse>Studio Directory</SectionLabel>
+              <h1 className="display-face mt-6 text-[clamp(2.8rem,7vw,6.5rem)] leading-[.85]">
+                Check out our <br />
+                <span className="serif-face font-normal italic text-[#d8ff45]">PROJECTS</span>
+              </h1>
+            </div>
+            <p className="max-w-md text-lg leading-relaxed text-[#eee7d5]/75">
+              Explore the software, SaaS platforms, and interactive experiences built by Advanced Creation Studio. Each project runs on its canonical address under <span className="font-mono text-[#d8ff45]">acstudioapps.us</span>.
+            </p>
+          </div>
+
+          {/* Privacy Policy Banner */}
+          <div className="mt-12 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#d8ff45]/40 bg-[#282135] p-5 shadow-lg">
+            <div className="flex items-center gap-3">
+              <Shield className="h-6 w-6 text-[#d8ff45]" />
+              <div>
+                <h4 className="text-sm font-semibold text-[#eee7d5]">User Privacy & Security Guaranteed</h4>
+                <p className="text-xs text-[#eee7d5]/70">All apps hosted under acstudioapps.us adhere to strict data privacy protocols.</p>
+              </div>
+            </div>
+            <a href="/privacy" className="focus-ring inline-flex items-center gap-2 rounded-full border border-[#d8ff45] px-4 py-2 mono-face text-[10px] uppercase tracking-[.12em] text-[#d8ff45] transition-colors hover:bg-[#d8ff45] hover:text-[#201a2a]">
+              Read Privacy Policy <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
+
+          {/* Filter & Search Bar */}
+          <div className="mt-12 flex flex-col gap-6 border-b border-[#eee7d5]/15 pb-8 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setFilter(cat)}
+                  className={`focus-ring rounded-full px-4 py-2 mono-face text-[10px] uppercase tracking-[.14em] transition-all ${
+                    filter === cat
+                      ? 'bg-[#d8ff45] text-[#201a2a] font-bold shadow-md'
+                      : 'border border-[#eee7d5]/25 text-[#eee7d5]/70 hover:border-[#eee7d5] hover:text-[#eee7d5]'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+            <div className="relative max-w-xs w-full">
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search projects..."
+                className="w-full rounded-full border border-[#eee7d5]/30 bg-[#282135] px-4 py-2 pl-10 text-xs text-[#eee7d5] placeholder-[#eee7d5]/40 outline-none focus:border-[#d8ff45]"
+              />
+              <Search className="absolute left-3.5 top-2.5 h-4 w-4 text-[#eee7d5]/40" />
+            </div>
+          </div>
+
+          {/* Grid of Projects */}
+          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredProjects.map((project) => (
+              <article key={project.name} className="project-card group flex flex-col justify-between rounded-xl border border-[#eee7d5]/20 bg-[#282135] p-5 transition-all hover:border-[#d8ff45]">
+                <div>
+                  <div className="aspect-[1.4] overflow-hidden rounded-lg border border-[#eee7d5]/15">
+                    <ProjectArt project={project} />
+                  </div>
+                  <div className="mt-5">
+                    <div className="flex items-center justify-between">
+                      <span className="mono-face text-[9px] uppercase tracking-[.14em] text-[#e76f5c]">{project.year}</span>
+                      <span className="mono-face text-[9px] uppercase tracking-[.14em] text-[#d8ff45]">{project.type}</span>
+                    </div>
+                    <h3 className="display-face mt-2 text-2xl font-bold text-[#eee7d5]">{project.name}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-[#eee7d5]/70">{project.description}</p>
+                  </div>
+                </div>
+                <div className="mt-6 flex items-center justify-between border-t border-[#eee7d5]/15 pt-4">
+                  <a
+                    href={`https://${project.url}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="focus-ring inline-flex items-center gap-1.5 mono-face text-[10px] font-bold uppercase tracking-[.12em] text-[#d8ff45] hover:underline"
+                  >
+                    {project.url} <ArrowUpRight className="h-3.5 w-3.5" />
+                  </a>
+                  <button
+                    onClick={() => setSelectedProject(project)}
+                    className="focus-ring mono-face text-[9px] uppercase tracking-[.12em] text-[#eee7d5]/50 hover:text-[#eee7d5]"
+                  >
+                    Quick View
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Dialog Modal */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-[#201a2a]/80 p-5 backdrop-blur-sm" role="dialog" aria-modal="true">
+          <div className="relative max-h-[90vh] w-full max-w-2xl overflow-auto bg-[#eee7d5] p-5 text-[#201a2a] shadow-2xl sm:p-8 rounded-xl">
+            <button type="button" onClick={() => setSelectedProject(null)} className="focus-ring absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full border border-[#201a2a]/30 bg-[#eee7d5]/80"><X className="h-4 w-4" /></button>
+            <div className="aspect-[1.7] pr-12"><ProjectArt project={selectedProject} /></div>
+            <div className="mt-7 flex flex-wrap items-start justify-between gap-4">
+              <div><span className="mono-face text-[9px] uppercase tracking-[.14em] text-[#e76f5c]">{selectedProject.year} / {selectedProject.type}</span><h2 className="display-face mt-2 text-4xl">{selectedProject.name}</h2></div>
+            </div>
+            <p className="mt-4 text-base leading-relaxed text-[#201a2a]/80">{selectedProject.description}</p>
+            <div className="mt-8 flex items-center justify-between border-t border-[#201a2a]/20 pt-5">
+              <a href={`https://${selectedProject.url}`} target="_blank" rel="noopener noreferrer" className="mono-face text-[11px] font-bold uppercase tracking-[.1em] text-[#201a2a] hover:text-[#e76f5c] inline-flex items-center gap-1.5">
+                Launch {selectedProject.url} <ArrowUpRight className="h-4 w-4" />
+              </a>
+              <button type="button" onClick={() => setSelectedProject(null)} className="focus-ring flex items-center gap-2 text-sm font-semibold">Close <ArrowRight className="h-4 w-4" /></button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Footer */}
+      <footer className="border-t border-[#eee7d5]/15 bg-[#201a2a] px-5 py-10 text-[#eee7d5] sm:px-8 lg:px-12">
+        <div className="editorial-wrap flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+          <div className="mono-face text-[10px] uppercase tracking-[.14em] text-[#eee7d5]/50">
+            © 2026 Advanced Creation Studio — All Signals Open
+          </div>
+          <div className="flex gap-6 mono-face text-[10px] uppercase tracking-[.14em]">
+            <a href="/" className="hover:text-[#d8ff45]">Home</a>
+            <a href="/projects" className="text-[#d8ff45]">Projects</a>
+            <a href="/privacy" className="hover:text-[#d8ff45]">Privacy Policy</a>
+          </div>
+        </div>
+      </footer>
+    </main>
+  );
+}
+
+function PrivacyPolicyPage() {
+  return (
+    <main className="studio-shell grain min-h-[100dvh] bg-[#eee7d5] text-[#201a2a]">
+      <header className="sticky top-0 z-50 bg-[#eee7d5]/95 backdrop-blur-md border-b border-[#201a2a]/15 py-3 px-5 sm:px-8 lg:px-12 flex items-center justify-between">
+        <Logo />
+        <div className="flex items-center gap-6">
+          <a href="/projects" className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#201a2a]/70 hover:text-[#e76f5c]">
+            ← Back to Projects
+          </a>
+          <a href="/" className="focus-ring mono-face text-[10px] uppercase tracking-[.14em] text-[#201a2a]/70 hover:text-[#e76f5c]">
+            Home
+          </a>
+        </div>
+      </header>
+
+      <section className="px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
+        <div className="editorial-wrap max-w-4xl">
+          <SectionLabel number="PRIVACY">Data Protection & User Trust</SectionLabel>
+          <h1 className="display-face mt-6 text-[clamp(2.5rem,6vw,5rem)] leading-[.9]">
+            Privacy Policy
+          </h1>
+          <p className="mono-face mt-4 text-xs uppercase tracking-[.15em] text-[#201a2a]/60">
+            Effective Date: January 1, 2026 | Domain: acstudioapps.us
+          </p>
+
+          <div className="mt-12 space-y-10 text-base leading-relaxed text-[#201a2a]/80">
+            <section className="border-t border-[#201a2a]/15 pt-6">
+              <h2 className="display-face text-2xl font-bold text-[#201a2a]">1. Overview & Scope</h2>
+              <p className="mt-3">
+                Advanced Creation Studio ("ACS", "we", "us", or "our") operates <span className="font-mono text-[#e76f5c]">acstudioapps.us</span> and all associated subdomain web applications (including <span className="font-mono">llb.acstudioapps.us</span>, <span className="font-mono">starbuster.acstudioapps.us</span>, <span className="font-mono">codelabs.acstudioapps.us</span>, and <span className="font-mono">nexuslore.acstudioapps.us</span>). We are committed to maintaining the highest level of user privacy and transparency.
+              </p>
+            </section>
+
+            <section className="border-t border-[#201a2a]/15 pt-6">
+              <h2 className="display-face text-2xl font-bold text-[#201a2a]">2. Data Collection Practices</h2>
+              <p className="mt-3">
+                We design our applications to minimize data collection. Most studio tools and PWAs operate with browser-local state (IndexedDB and LocalStorage), ensuring your active sessions, notes, case law searches, and game progress remain private to your local browser environment.
+              </p>
+              <ul className="mt-4 list-disc pl-6 space-y-2">
+                <li><strong>Local Storage:</strong> Used to maintain offline availability for PWA applications.</li>
+                <li><strong>Inquiries & Briefs:</strong> When you voluntarily submit a project inquiry, we collect your email address and project description solely to respond to your request.</li>
+                <li><strong>No Telemetry Selling:</strong> We do NOT sell, monetize, or share your personal information or telemetry to third-party ad networks.</li>
+              </ul>
+            </section>
+
+            <section className="border-t border-[#201a2a]/15 pt-6">
+              <h2 className="display-face text-2xl font-bold text-[#201a2a]">3. Progressive Web App (PWA) Security</h2>
+              <p className="mt-3">
+                All PWA apps hosted under acstudioapps.us utilize encrypted TLS connections (HTTPS) and isolated service workers to ensure that offline data caching complies with modern browser security standards.
+              </p>
+            </section>
+
+            <section className="border-t border-[#201a2a]/15 pt-6">
+              <h2 className="display-face text-2xl font-bold text-[#201a2a]">4. Contact & Data Inquiries</h2>
+              <p className="mt-3">
+                If you have privacy questions or wish to request data erasure, contact our administrative desk:
+              </p>
+              <div className="mt-4 rounded-lg border border-[#201a2a]/20 bg-[#eee7d5] p-4 font-mono text-sm">
+                Email: <a href="mailto:admnowner@advancedcreationstudio.com" className="text-[#e76f5c] underline">admnowner@advancedcreationstudio.com</a><br />
+                Domain Host: acstudioapps.us<br />
+                Entity: Advanced Creation Studio
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-[#201a2a]/15 bg-[#eee7d5] px-5 py-10 text-[#201a2a] sm:px-8 lg:px-12">
+        <div className="editorial-wrap flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+          <div className="mono-face text-[10px] uppercase tracking-[.14em] text-[#201a2a]/60">
+            © 2026 Advanced Creation Studio — All Rights Reserved
+          </div>
+          <div className="flex gap-6 mono-face text-[10px] uppercase tracking-[.14em]">
+            <a href="/" className="hover:text-[#e76f5c]">Home</a>
+            <a href="/projects" className="hover:text-[#e76f5c]">Projects</a>
+            <a href="/privacy" className="text-[#e76f5c]">Privacy Policy</a>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
@@ -591,6 +894,9 @@ function Router() {
     <RoutedErrorBoundary>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/projects" component={ProjectsPage} />
+        <Route path="/privacy" component={PrivacyPolicyPage} />
+        <Route path="/privacy-policy" component={PrivacyPolicyPage} />
         <Route component={NotFound} />
       </Switch>
     </RoutedErrorBoundary>
