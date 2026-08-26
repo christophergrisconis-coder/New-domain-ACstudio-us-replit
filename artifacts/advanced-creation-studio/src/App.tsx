@@ -301,7 +301,19 @@ function Home() {
 
       <section id="studio" className="scroll-mt-8 px-5 py-28 sm:px-8 lg:px-12 lg:py-44">
         <div className="editorial-wrap grid gap-16 lg:grid-cols-[.72fr_1.28fr] lg:gap-24">
-          <Reveal><SectionLabel number="01">The studio</SectionLabel></Reveal>
+          <div className="flex flex-col">
+            <Reveal><SectionLabel number="01">The studio</SectionLabel></Reveal>
+            <Reveal delay="reveal-delay-2" className="hidden lg:block mt-auto pt-24">
+              <ImageChapter 
+                src="/visuals/acs-studio-object.jpg" 
+                alt="Abstract studio object signifying creation" 
+                label="Object / 00" 
+                caption="Form meets function." 
+                className="h-[420px] w-full grayscale-[0.3]" 
+                imageClassName="scale-[1.15] object-center" 
+              />
+            </Reveal>
+          </div>
           <div>
             <Reveal>
               <h2 className="display-face max-w-4xl text-[clamp(3rem,7vw,7.4rem)] leading-[.86]">
