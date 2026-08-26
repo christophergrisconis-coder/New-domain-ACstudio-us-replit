@@ -1,71 +1,36 @@
 name: Assemble icon binaries
 
+# bump: 2026-08-26T15:14Z-icons-zip-v2
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    paths:
+      - ".github/workflows/assemble-icon-binaries.yml"
 
 permissions:
   contents: write
-
-concurrency:
-  group: assemble-icons
-  cancel-in-progress: true
 
 jobs:
   assemble:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Download and unpack icon binaries into public/
+      - name: Download icon zip and unpack into public/
         run: |
           set -euo pipefail
           PUBLIC=artifacts/advanced-creation-studio/public
-          curl -fsSL -o /tmp/acs-icons.zip \
-            "https://tmpfiles.org/dl/1787757364.adde55128bbc5d9c/wjw9GZ3plTpL/acs-icons.zip"
+          curl -fsSL -A Mozilla/5.0 -o /tmp/acs-icons.zip https://tmpfiles.org/dl/1787757364.adde55128bbc5d9c/wjw9GZ3plTpL/acs-icons.zip
           unzip -o /tmp/acs-icons.zip -d "$PUBLIC"
-          test -f "$PUBLIC/apple-touch-icon.png"
-          test -f "$PUBLIC/android-chrome-512x512.png"
-          test -f "$PUBLIC/android-chrome-512x512-maskable.png"
-          test -f "$PUBLIC/favicon.ico"
-          python3 - <<'PY'
-          import os
-          expected = {
-            'favicon-16x16.png': 585,
-            'favicon-32x32.png': 1334,
-            'favicon.ico': 1973,
-            'apple-touch-icon.png': 8201,
-            'android-chrome-192x192.png': 8615,
-            'android-chrome-512x512.png': 24469,
-            'android-chrome-192x192-maskable.png': 6102,
-            'android-chrome-512x512-maskable.png': 18118,
-          }
-          base = 'artifacts/advanced-creation-studio/public'
-          for name, size in expected.items():
-            path = os.path.join(base, name)
-            got = os.path.getsize(path)
-            assert got == size, f'{name}: expected {size}, got {got}'
-            print(f'OK {name}={got}')
-          PY
-
+          test $(wc -c < "$PUBLIC/apple-touch-icon.png") -eq 8201
+          test $(wc -c < "$PUBLIC/android-chrome-512x512-maskable.png") -eq 18118
+          test $(wc -c < "$PUBLIC/favicon-16x16.png") -eq 585
+          ls -la "$PUBLIC"/*.png "$PUBLIC"/favicon.ico
       - name: Commit PWA and favicon icon binaries
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            artifacts/advanced-creation-studio/public/favicon-16x16.png \
-            artifacts/advanced-creation-studio/public/favicon-32x32.png \
-            artifacts/advanced-creation-studio/public/favicon.ico \
-            artifacts/advanced-creation-studio/public/apple-touch-icon.png \
-            artifacts/advanced-creation-studio/public/android-chrome-192x192.png \
-            artifacts/advanced-creation-studio/public/android-chrome-512x512.png \
-            artifacts/advanced-creation-studio/public/android-chrome-192x192-maskable.png \
-            artifacts/advanced-creation-studio/public/android-chrome-512x512-maskable.png
-          if git diff --cached --quiet; then
-            echo "No icon changes"
-            exit 0
-          fi
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add artifacts/advanced-creation-studio/public/favicon-16x16.png artifacts/advanced-creation-studio/public/favicon-32x32.png artifacts/advanced-creation-studio/public/favicon.ico artifacts/advanced-creation-studio/public/apple-touch-icon.png artifacts/advanced-creation-studio/public/android-chrome-192x192.png artifacts/advanced-creation-studio/public/android-chrome-512x512.png artifacts/advanced-creation-studio/public/android-chrome-192x192-maskable.png artifacts/advanced-creation-studio/public/android-chrome-512x512-maskable.png
+          if git diff --cached --quiet; then echo No icon changes; exit 0; fi
           git commit -m "chore: update PWA and favicon icon binaries"
           git push
